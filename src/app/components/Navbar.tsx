@@ -1,13 +1,32 @@
 'use client'
 
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from 'next/image';
 import logo from "@/app/assets/logo.png";
 import { navItems } from "@/app/constants";
 
 export default function Navbar() {
 
+  const [activeLink, setActiveLink] = useState(navItems[0].href.replace("#",""));
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = document.querySelectorAll('section');
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 0 && rect.bottom >= 0) {
+          setActiveLink(section.id);
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   const toogleNavbar = () => {
@@ -19,24 +38,15 @@ export default function Navbar() {
       <div className="container px-4 mx-auto relative text-sm">
         <div className="flex justify-between items-center">
           <div className="flex items-center flex-shrink-0">
-            <Image className="h-10 w-10 mr-2" src={logo} alt="logo" />
-            <span className="text-xl tracking-tight">Dinamus</span>
+            <Image className="h-20 w-auto mr-2 pl-10" src={logo} alt="logo" />
           </div>
-          <ul className="hidden lg:flex ml-14 space-x-12">
+          <ul className="hidden lg:flex ml-14 space-x-12 pr-10">
             {navItems.map((item, index) => (
               <li key={index}>
-                <a href={item.href}>{item.label}</a>
+                <a className={`block relative text-lg transition-colors hover:text-orange-500 ${activeLink === item.href.replace("#","") ? 'text-orange-500' : 'text-gray-600'}`} href={item.href}>{item.label}</a>
               </li>
             ))}
           </ul>
-          <div className="hidden lg:flex justify-center space-x-12 items-center">
-            <a href="#" className="py-2 px-3 border rounded-md">
-              Sign In
-            </a>
-            <a href="#" className="bg-gradient-to-r from-orange-500 to-orange-800 py-2 px-3 rounded-md">
-              Create an account
-            </a>
-          </div>
           <div className="lg:hidden md:flex flex-col justify-end">
             <button onClick={toogleNavbar}>
               {mobileDrawerOpen ? <X/> : <Menu/>}
@@ -44,22 +54,14 @@ export default function Navbar() {
           </div>
         </div>
         {mobileDrawerOpen && (
-          <div className="fixed right-0 z-20 bg-neutral-900 w-full p-12 flex flex-col justify-center items-center lg:hidden">
-            <ul>
+          <div className="w-full fixed right-0 z-20 bg-neutral-100 p-12 flex flex-col justify-center items-center lg:hidden">
+            <ul className="w-full">
               {navItems.map((item, index) => (
-                <li key={index} className="py-4">
-                  <a href={item.href}>{item.label}</a>
+                <li key={index} className="py-4 text-center">
+                  <a className="block w-full" href={item.href}>{item.label}</a>
                 </li>
               ))}
             </ul>
-            <div className="flex space-x-6">
-              <a href="#" className="py-2 px-3 border rounded-md">
-                Sign In
-              </a>
-              <a href="#" className="py-2 px-3 rounded-md bg-gradient-to-r from-orange-500 to-orange-800">
-                Create account
-              </a>
-            </div>
           </div>
         )}
       </div>
