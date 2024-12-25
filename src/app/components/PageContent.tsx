@@ -3,7 +3,7 @@ import AboutSection from '@/app/components/AboutSection';
 import ClassesSection from '@/app/components/ClassesSection';
 import ContactSection from '@/app/components/ContactSection';
 
-export default function HeroSection () {
+export default function PageContent () {
 
   return (
     <div className="flex flex-col items-center mt-6 lg:mt-20">
