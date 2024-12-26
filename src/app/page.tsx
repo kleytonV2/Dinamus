@@ -8,11 +8,14 @@ export default function Home() {
     <>
       <section id='home' />
       <Navbar />
-      <HeroSection />
+      <div className="bg-fixed w-full h-screen top-0 left-0 bg-[url('@/app/assets/banner_gradient.png')] bg-cover bg-center">
+        <HeroSection />
+      </div>
       <div className="max-w-7xl mx-auto ppt-20 px-6 bg-white rounded-3xl">
         <PageContent />
         <FooterSection />
       </div>
+      
     </>
   );
 }

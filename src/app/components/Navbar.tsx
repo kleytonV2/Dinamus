@@ -34,7 +34,7 @@ export default function Navbar() {
   } 
 
   return (
-    <nav className="sticky w-3/5 mx-auto top-10 z-50 py-3">
+    <nav className="fixed w-full top-10 z-50 py-3">
       <div className="container px-4 mx-auto relative text-sm">
         <div className="flex justify-center items-center">
           <div className="hidden lg:flex space-x-12">

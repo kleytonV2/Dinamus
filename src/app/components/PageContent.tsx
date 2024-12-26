@@ -26,7 +26,7 @@ export default function PageContent () {
         }
        
         return (
-          <section key={index} id={sectionId}>
+          <section key={index} id={sectionId} className="w-full">
             {content}
           </section>
         );
