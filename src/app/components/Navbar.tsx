@@ -8,30 +8,43 @@ import { navItems } from "@/app/constants";
 
 export default function Navbar() {
 
-  const [activeLink, setActiveLink] = useState(navItems[0].href.replace("#",""));
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = document.querySelectorAll('section');
-      sections.forEach((section) => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top <= 0 && rect.bottom >= 0) {
-          setActiveLink(section.id);
-        }
-      });
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-  
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   const toogleNavbar = () => {
     setMobileDrawerOpen(!mobileDrawerOpen);
   } 
+  
+  const [activeLink, setActiveLink] = useState(navItems[0].href.replace("#",""));
+  const [isDark, setIsDark] = useState(false); // Track if the current section is dark
+
+  useEffect(() => {
+    const sections = document.querySelectorAll('section');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+
+            let sectionId = entry.target.getAttribute('id');
+            let sectionBgColor = entry.target.getAttribute('data-bg');
+
+            console.log("section ", sectionId, "is intersecting");
+
+            setIsDark(sectionBgColor === 'dark');
+
+            if(sectionId != undefined && sectionId?.toString.length > 0)
+              setActiveLink(sectionId);
+
+          }
+        });
+      },
+      { threshold: 1 } // Trigger when 100% of the section is visible
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    // Cleanup the observer on component unmount
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <nav className="fixed w-full top-10 z-50 py-3">
@@ -40,10 +53,15 @@ export default function Navbar() {
           <div className="hidden lg:flex space-x-12">
             <Image className="h-auto w-20 mr-2 pl-10" src={logo} alt="logo" />
           </div>
-          <ul className="hidden lg:flex space-x-12 backdrop-blur rounded-3xl px-2">
+          <ul id="linksList" className="hidden lg:flex space-x-12 backdrop-blur rounded-3xl px-2">
             {navItems.map((item, index) => (
               <li key={index}>
-                <a className={`block px-4 py-3 relative transition-colors text-gray-400 hover:text-gray-800 ${activeLink === item.href.replace("#","") ? 'text-gray-800' : 'text-gray-400'}`} href={item.href}>{item.label}</a>
+                <a className={`block px-4 py-3 relative transition-colors
+                  hover:${isDark ? 'text-neutral-50':'text-neutral-950' } 
+                  ${activeLink === item.href.replace("#","") ? 
+                    (isDark ? 'text-neutral-50':'text-neutral-950') : (isDark ? 'text-neutral-400':'text-neutral-600' )
+                  }
+                `} href={item.href}>{item.label}</a>
               </li>
             ))}
           </ul>

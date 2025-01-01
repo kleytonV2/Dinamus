@@ -6,9 +6,9 @@ import FooterSection from '@/app/components/FooterSection';
 export default function Home() {
   return (
     <>
-      <section id='home' />
+      <section id='home' data-bg="dark" />
       <Navbar />
-      <div className="bg-fixed w-full h-screen top-0 left-0 bg-[url('@/app/assets/banner_gradient.png')] bg-cover bg-center">
+      <div className="bg-fixed w-full h-screen top-0 left-0 bg-[url('@/app/assets/banner_overlay.png')] bg-cover bg-center">
         <HeroSection />
       </div>
       <div className="max-w-7xl mx-auto ppt-20 px-6 bg-white rounded-3xl">

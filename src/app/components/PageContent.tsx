@@ -1,4 +1,4 @@
-import { navItems } from "@/app/constants";
+import { sections } from "@/app/constants";
 import AboutSection from '@/app/components/AboutSection';
 import ClassesSection from '@/app/components/ClassesSection';
 import ContactSection from '@/app/components/ContactSection';
@@ -7,11 +7,13 @@ export default function PageContent () {
 
   return (
     <div className="flex flex-col items-center mt-6 lg:mt-20">
-      {navItems.map((item, index) => {
-        let content = null;
-        let sectionId = item.href.replace("#","");
+      {sections.map((item, index) => {
 
-        switch (sectionId) {
+        // if(item.id === "home") return;
+        
+        let content = null;
+
+        switch (item.id) {
             case 'treinos':
                 content = <ClassesSection/>;
                 break;
@@ -26,7 +28,7 @@ export default function PageContent () {
         }
        
         return (
-          <section key={index} id={sectionId} className="w-full">
+          <section key={index} id={item.id} className="w-full" data-bg={item.dataBg}>
             {content}
           </section>
         );
