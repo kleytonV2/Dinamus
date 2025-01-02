@@ -22,22 +22,43 @@ export default function Navbar() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          
+          console.log("");
+          console.log("***** IntersectionObserver has been trigered! *****");
+          console.log("Entry: ", entry);
+
           if (entry.isIntersecting) {
 
-            let sectionId = entry.target.getAttribute('id');
-            let sectionBgColor = entry.target.getAttribute('data-bg');
+            const marginTop = parseFloat(
+              getComputedStyle(entry.target).marginTop || '0'
+            );
 
-            console.log("section ", sectionId, "is intersecting");
+            console.log("section ", entry.target.getAttribute('id'), "is intersecting");
+            console.log("entry.boundingClientRect.top: ", entry.boundingClientRect.top);
+            console.log("entry parent marginTop: ", marginTop);
 
-            setIsDark(sectionBgColor === 'dark');
+            if (entry.boundingClientRect.top <= marginTop) {
 
-            if(sectionId != undefined && sectionId?.toString.length > 0)
-              setActiveLink(sectionId);
+              console.log("BoundingClient is less than marginTop! Triggering functions!");
 
+              let sectionId = entry.target.getAttribute('id');
+              let sectionBgColor = entry.target.getAttribute('data-bg');
+
+              setIsDark(sectionBgColor === 'dark');
+
+              if(sectionId != undefined && sectionId?.toString.length > 0)
+                setActiveLink(sectionId);
+            }
           }
+
+          console.log("");
+
         });
       },
-      { threshold: 1 } // Trigger when 100% of the section is visible
+      { 
+        threshold: 0, //any part of the next section is visible
+        rootMargin: '0px 0px -90% 0px' // Trigger when the top reaches the viewport top
+      } 
     );
 
     sections.forEach((section) => observer.observe(section));
