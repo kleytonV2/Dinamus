@@ -9,7 +9,7 @@ export default function PageContent () {
     <div className="flex flex-col items-center">
       {sections.map((item, index) => {
 
-        // if(item.id === "home") return;
+        if(item.id === "home") return;
         
         let content = null;
 
@@ -28,8 +28,13 @@ export default function PageContent () {
         }
        
         return (
-          <section key={index} id={item.id} className="w-full mt-6 lg:mt-20" data-bg={item.dataBg}>
-            {content}
+          <section key={index} id={item.id} className="w-full h-screen lg:py-40" data-bg={item.dataBg}>
+            <div className="max-w-7xl mx-auto ppt-20 px-6 rounded-3xl">
+              <div className="flex flex-col items-center">
+                <p className="sectionTitle text-3xl uppercase mb-10">{item.label}</p>
+                {content}
+              </div>
+            </div>
           </section>
         );
     })}

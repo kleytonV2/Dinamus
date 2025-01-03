@@ -32,3 +32,17 @@ body {
 #linksList{
   background-color: rgba(255, 255, 255, 0.35);
 }
+
+section[data-bg="light"]{
+  background-color: #ffffff;
+}
+section[data-bg="light"] .sectionTitle {
+  color: #000000;
+}
+
+section[data-bg="dark"]{
+  background-color: #000000;
+}
+section[data-bg="dark"] .sectionTitle {
+  color: #ffffff;
+}

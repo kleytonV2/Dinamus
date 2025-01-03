@@ -17,8 +17,57 @@ export default function Navbar() {
   const [activeLink, setActiveLink] = useState(navItems[0].href.replace("#",""));
   const [isDark, setIsDark] = useState(false); // Track if the current section is dark
 
+  // useEffect(() => {
+  //   const linksList = document.querySelector('#linksList');
+  //   if (linksList === null) return;
+
+  //   const sections = document.querySelectorAll('section');
+
+  //   const handleScroll = () => {
+  //     const linksListRect = linksList.getBoundingClientRect();
+
+  //     for (let i = 0; i < sections.length; i++) {
+  //       const section = sections[i];
+  //       const sectionRect = section.getBoundingClientRect();
+
+  //       console.log("");
+  //       console.log("***********************");
+  //       console.log("sectionRect.top = ", sectionRect.top);
+  //       console.log("sectionRect.bottom = ", sectionRect.bottom);
+  //       console.log("linksListRect.bottom = ", linksListRect.bottom);
+  //       console.log("");
+        
+  //       if (
+  //         sectionRect.bottom >= linksListRect.bottom && // Navbar intersects with section
+  //         sectionRect.top <= linksListRect.bottom // Ensure section is in view
+  //       ) {
+  //         const bgColor = section.getAttribute('data-bg');
+  //         setIsDark(bgColor === 'dark');
+  //         setActiveLink(section.id);
+  //         break;
+  //       }
+
+  //       // If current section is not visible, check the next one
+  //       if (sectionRect.bottom < linksListRect.bottom && i < sections.length - 1) {
+  //         const nextSection = sections[i + 1];
+  //         const nextBgColor = nextSection.getAttribute('data-bg');
+  //         setIsDark(nextBgColor === 'dark');
+  //         setActiveLink(section.id);
+  //       }
+  //     }
+  //   };
+
+  //   window.addEventListener('scroll', handleScroll);
+
+  //   // Cleanup the event listener on component unmount
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, []);
+  
   useEffect(() => {
     const sections = document.querySelectorAll('section');
+    const linksList = document.querySelector('#linksList')?.getBoundingClientRect();
+    if (linksList === undefined) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -29,27 +78,23 @@ export default function Navbar() {
 
           if (entry.isIntersecting) {
 
-            const marginTop = parseFloat(
-              getComputedStyle(entry.target).marginTop || '0'
-            );
-
             console.log("section ", entry.target.getAttribute('id'), "is intersecting");
-            console.log("entry.boundingClientRect.top: ", entry.boundingClientRect.top);
-            console.log("entry parent marginTop: ", marginTop);
+            console.log("entry.boundingClientRect.bottom: ", entry.boundingClientRect.bottom);
+            console.log("entry parent linksList bottom: ", linksList.bottom);
 
-            if (entry.boundingClientRect.top <= marginTop) {
+            // if (entry.boundingClientRect.bottom >= linksList.bottom) {
 
-              console.log("BoundingClient is less than marginTop! Triggering functions!");
+              console.log("Section bottom is greater than linksList bottom! Triggering functions!");
 
               let sectionId = entry.target.getAttribute('id');
               let sectionBgColor = entry.target.getAttribute('data-bg');
 
               setIsDark(sectionBgColor === 'dark');
 
-              if(sectionId != undefined && sectionId?.toString.length > 0)
+              if(sectionId != undefined && sectionId.length > 0)
                 setActiveLink(sectionId);
             }
-          }
+          // }
 
           console.log("");
 
@@ -57,7 +102,7 @@ export default function Navbar() {
       },
       { 
         threshold: 0, //any part of the next section is visible
-        rootMargin: '0px 0px -90% 0px' // Trigger when the top reaches the viewport top
+        rootMargin: `0px 0px -${window.innerHeight - (linksList.bottom + 20)}px 0px` // Trigger when the top reaches the viewport top
       } 
     );
 
@@ -78,7 +123,7 @@ export default function Navbar() {
             {navItems.map((item, index) => (
               <li key={index}>
                 <a className={`block px-4 py-3 relative transition-colors
-                  hover:${isDark ? 'text-neutral-50':'text-neutral-950' } 
+                  ${isDark ? 'hover:text-neutral-50':'hover:text-neutral-950' } 
                   ${activeLink === item.href.replace("#","") ? 
                     (isDark ? 'text-neutral-50':'text-neutral-950') : (isDark ? 'text-neutral-400':'text-neutral-600' )
                   }
