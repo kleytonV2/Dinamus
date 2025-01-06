@@ -2,12 +2,12 @@ import { classes } from "@/app/constants";
 
 export default function ClassesSection () {
     return (
-      <div className="w-full flex justify-center items-center">
+      <div className="w-full flex flex-col lg:flex-row justify-center items-center">
         {classes.map((item, index) => {
           return (
             <div
               key={index}
-              className="group relative flex justify-center w-1/2 h-96 mx-10 border my-2 rounded-lg overflow-hidden">
+              className="group relative flex justify-center lg:w-1/2 w-full h-96 mx-10 border my-2 rounded-lg overflow-hidden">
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
                 style={{ backgroundImage: `url(${item.bgImageUrl.src})` }}

@@ -24,17 +24,12 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-#heroSection {
-  padding-top: 25vh;
-  z-index: 1;
-}
-
 #linksList{
   background-color: rgba(255, 255, 255, 0.35);
 }
 
 section[data-bg="light"]{
-  background-color: #ffffff;
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
 }
 section[data-bg="light"] .sectionTitle {
   color: #000000;
