@@ -6,10 +6,10 @@ export const navItems = [
 ];
 
 export const sections = [
-    { id: "home", label: "Home", dataBg: "dark" },
-    { id: "treinos", label: "Treinos", dataBg: "dark" },
-    { id: "sobre", label: "Sobre", dataBg: "light" },
-    { id: "contato", label: "Contato", dataBg: "light" }
+    { id: "home", label: "Home", dataBg: "dark", height: "lg:h-screen" },
+    { id: "treinos", label: "Treinos", dataBg: "dark", height: "lg:h-screen" },
+    { id: "sobre", label: "Sobre", dataBg: "light", height: "lg:h-screen" },
+    { id: "contato", label: "Contato", dataBg: "light", height: "" }
 ];
 
 import img_1 from "@/app/assets/img_1.jpg";
