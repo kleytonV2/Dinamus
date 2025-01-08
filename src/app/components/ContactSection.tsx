@@ -33,7 +33,7 @@ export default function ContactSection () {
         <iframe 
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d156754.95460508644!2d-38.60201632320997!3d-3.793139245749286!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7c74c3f464c783f%3A0x4661c60a0c6b37ca!2sFortaleza%20-%20CE%2C%20Brasil!5e1!3m2!1spt-BR!2ses!4v1736189344712!5m2!1spt-BR!2ses" 
           width="100%" 
-          height="200"
+          height="330"
           allowFullScreen
           loading="lazy" 
           referrerPolicy="no-referrer-when-downgrade"/>

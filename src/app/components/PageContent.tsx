@@ -29,7 +29,7 @@ export default function PageContent () {
        
         return (
           <section key={index} id={item.id} className={"w-full h-auto lg:pt-40 pt-20 " + item.height} data-bg={item.dataBg}>
-            <div className="max-w-7xl mx-auto px-6 rounded-3xl">
+            <div className="max-w-7xl mx-auto">
               <div className="flex flex-col items-center">
                 <h2 className="sectionTitle text-2xl font-semibold text-center text-gray-700 mb-6">{item.label}</h2>
                 {content}
