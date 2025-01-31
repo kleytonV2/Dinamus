@@ -12,6 +12,11 @@ export const sections = [
     { id: "contato", label: "Contato", dataBg: "light", height: "" }
 ];
 
+export const DBCollections = [
+    { label: "Alunos", href: "/admin/students" },
+    { label: "Treinos", href: "/admin/classes" }
+];
+
 import img_1 from "@/app/assets/img_1.jpg";
 import img_2 from "@/app/assets/img_2.jpg";
 
