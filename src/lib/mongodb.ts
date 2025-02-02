@@ -17,7 +17,7 @@ export const connectToDatabase = async () => {
     try {
         console.log("Connecting to MongoDB...");
         cachedConnection = await mongoose.connect(MONGODB_URI, {
-            dbName: "Dinamus", // Change this to the database you want to connect to
+            dbName: "Dinamus", 
         });
 
         console.log("MongoDB Connected ✅");

@@ -49,3 +49,26 @@ section[data-bg="dark"], footer, .contactCard{
 section[data-bg="dark"] .sectionTitle {
   color: #ffffff;
 }
+
+/* Custom scroll bar */
+.scrollable-container{
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 17.5rem;
+}
+.scrollable-container::-webkit-scrollbar {
+  width: 8px; /* Set the width of the scrollbar */
+}
+
+.scrollable-container::-webkit-scrollbar-track {
+  background: transparent; /* Track background */
+}
+
+.scrollable-container::-webkit-scrollbar-thumb {
+  background: rgba(138, 175, 255, 0.5); /* Scrollbar color */
+  border-radius: 10px; /* Rounded scrollbar thumb */
+}
+
+.scrollable-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(138, 175, 255, 0.7); /* Hover effect */
+}

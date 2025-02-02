@@ -17,6 +17,19 @@ export const DBCollections = [
     { label: "Treinos", href: "/admin/classes" }
 ];
 
+export const faixas = [
+    { label: "Branca" },
+    { label: "Amarela" },
+    { label: "Laranja" },
+    { label: "Verde" },
+    { label: "Azul" },
+    { label: "Roxa" },
+    { label: "Marrom" },
+    { label: "Preta" },
+    { label: "Coral" },
+    { label: "Vermelha" }
+];
+
 import img_1 from "@/app/assets/img_1.jpg";
 import img_2 from "@/app/assets/img_2.jpg";
 
