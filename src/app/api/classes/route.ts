@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   await connectToDatabase();
-  const classes = await Class.find().populate("students"); // Fetch students as full objects
+  const classes = await Class.find().populate("students");
   return NextResponse.json(classes);
 }
 
@@ -13,14 +13,14 @@ export async function POST(req: Request) {
   await connectToDatabase();
   const { title, dayOfWeek, startTime, endTime, students } = await req.json();
 
-  const studentObjectIds = students.map((id: string) => new mongoose.Types.ObjectId(id)); // Convert to ObjectId
+  const studentObjectIds = students.map((id: string) => new mongoose.Types.ObjectId(id)); 
 
   const newClass = new Class({
     title,
     dayOfWeek,
     startTime,
     endTime,
-    students: studentObjectIds, // Store as ObjectId[]
+    students: studentObjectIds,
   });
 
   await newClass.save();

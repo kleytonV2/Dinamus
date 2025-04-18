@@ -13,7 +13,7 @@ const ClassSchema = new Schema<IClass>({
   dayOfWeek: { type: String, required: true },
   startTime: { type: String, required: true },
   endTime: { type: String, required: true },
-  students: [{ type: Schema.Types.ObjectId, ref: "Student" }],
+  students: [{ type: Schema.Types.ObjectId, ref: "Student" }]
 });
 
 export default mongoose.models.Class || mongoose.model<IClass>("Class", ClassSchema);

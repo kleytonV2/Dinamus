@@ -12,11 +12,6 @@ export const sections = [
     { id: "contato", label: "Contato", dataBg: "light", height: "" }
 ];
 
-export const DBCollections = [
-    { label: "Alunos", href: "/admin/students" },
-    { label: "Treinos", href: "/admin/classes" }
-];
-
 export const faixas = [
     { label: "Branca" },
     { label: "Amarela" },
@@ -30,9 +25,17 @@ export const faixas = [
     { label: "Vermelha" }
 ];
 
+import studentsIcon from "@/app/assets/icons/studentsIcon.svg";
+import classIcon from "@/app/assets/icons/classIcon.svg";
+import attendanceIcon from "@/app/assets/icons/attendanceIcon.svg";
+export const DBCollections = [
+    { label: "Alunos", href: "/admin/students", icon: studentsIcon },
+    { label: "Treinos", href: "/admin/classes", icon: classIcon  },
+    { label: "Assistências", href: "/admin/attendances", icon: attendanceIcon  }
+];
+
 import img_1 from "@/app/assets/img_1.jpg";
 import img_2 from "@/app/assets/img_2.jpg";
-
 export const classes = [
     { 
         name: "Treino 1", 

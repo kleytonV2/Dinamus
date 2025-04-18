@@ -1,6 +1,5 @@
 "use client";
 
-import { ObjectId } from "mongoose";
 import { useEffect, useState } from "react";
 
 interface IStudent {
@@ -35,7 +34,7 @@ export default function ClassesPage() {
   useEffect(() => {
     fetchStudents();
     fetchClasses();
-    setTimeout(() => setFadeIn(true), 100); // Fade-in effect
+    setTimeout(() => setFadeIn(true), 500); // Fade-in effect
   }, []);
 
   async function fetchStudents() {
@@ -81,7 +80,7 @@ export default function ClassesPage() {
         dayOfWeek: cls.dayOfWeek,
         startTime: cls.startTime,
         endTime: cls.endTime,
-        students: cls.students.map((s) => (typeof s === "string" ? s : s._id)), // Ensure only IDs are stored
+        students: cls.students.map((s:any) => (typeof s === "string" ? s : s._id)),
       });
       setEditing(true);
     } else {
@@ -101,11 +100,9 @@ export default function ClassesPage() {
     const updatedStudents = [...form.students];
   
     if (updatedStudents.includes(studentId)) {
-      // If student is assigned, remove them
       const index = updatedStudents.indexOf(studentId);
       updatedStudents.splice(index, 1);
     } else {
-      // If student is not assigned, add them
       updatedStudents.push(studentId);
     }
   
@@ -137,7 +134,7 @@ export default function ClassesPage() {
                             <p className="text-sm text-gray-600">{cls.students.length} Alunos</p>
                             <div className="flex justify-between mt-2">
                                 <button onClick={() => openModal(cls)} className="text-blue-500 mr-4">Editar</button>
-                                <button onClick={() => handleDelete(cls._id!)} className="text-red-500">Eliminar</button>
+                                <button disabled={cls.students.length > 0} onClick={() => handleDelete(cls._id!)} className="text-red-500">Eliminar</button>
                             </div>
                         </div>
                     ))
@@ -215,7 +212,7 @@ export default function ClassesPage() {
                             </thead>
                             <tbody>
                                 {students.map((student) => {
-                                    const isAssigned = form.students.includes(student._id); // ✅ Check if student is assigned
+                                    const isAssigned = form.students.includes(student._id);
 
                                     return (
                                     <tr key={student._id} className="border border-gray-300">
