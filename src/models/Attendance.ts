@@ -1,14 +1,14 @@
 import mongoose, { Schema, Document, Types } from "mongoose";
 
 export interface IAttendance extends Document {
-  date: Schema.Types.Date;
+  date: Date;
   class: Types.ObjectId;
   absentStudents: Types.ObjectId[];
 }
 
 const AttendanceSchema = new Schema<IAttendance>(
   {
-    date: { type: Schema.Types.Date, required: true },
+    date: { type: Date, required: true },
     class: { type: Schema.Types.ObjectId, ref: "Class", required: true },
     absentStudents: [{ type: Schema.Types.ObjectId, ref: "Student" }],
   },
