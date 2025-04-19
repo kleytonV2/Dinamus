@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 export default function Login() {
   useEffect(() => {
-    signIn("google", { callbackUrl: "/" });
+    signIn("google", { callbackUrl: "/admin" });
   }, []);
 
   return (
