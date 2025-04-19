@@ -51,7 +51,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="fixed w-full bottom-0 lg:bottom-auto lg:top-10 z-50 py-3">
+    <nav className="fixed w-full top-4 lg:top-10 z-50 py-3">
       <div className="container px-4 mx-auto relative text-sm">
         <div className="flex justify-center items-center">
           {/* 

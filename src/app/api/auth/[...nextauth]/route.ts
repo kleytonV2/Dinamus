@@ -10,8 +10,8 @@ const handler = NextAuth({
   ],
   callbacks: {
     async signIn({ user }) {
-      const allowedEmails = ["registropaginasguays@gmail.com"];
-      if (user.email && allowedEmails.includes(user.email)) {
+      const allowedEmails = process.env.ALLOWED_EMAILS;
+      if (user.email && (allowedEmails != undefined && allowedEmails.includes(user.email))) {
         return true; 
       } else {
         return false; 
