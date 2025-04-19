@@ -80,7 +80,7 @@ export default function ClassesPage() {
         dayOfWeek: cls.dayOfWeek,
         startTime: cls.startTime,
         endTime: cls.endTime,
-        students: cls.students.map((s:any) => (typeof s === "string" ? s : s._id)),
+        students: (cls.students as unknown as IStudent[]).map((s) => s._id),
       });
       setEditing(true);
     } else {
@@ -126,7 +126,7 @@ export default function ClassesPage() {
         <div className="space-y-4 sm:hidden">
             <div className="space-y-4 sm:hidden">
                 {classes.length > 0 ? (
-                    classes.map((cls, index) => (
+                    classes.map((cls) => (
                         <div key={cls._id} className="p-4 border rounded bg-white shadow">
                             <p className="text-lg font-semibold">{cls.title}</p>
                             <p className="text-sm text-gray-600">{cls.dayOfWeek}</p>

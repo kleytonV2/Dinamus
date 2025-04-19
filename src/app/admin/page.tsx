@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { DBCollections } from "@/app/constants";
 import Image from 'next/image';
 
@@ -35,10 +35,6 @@ export default function Admin() {
         ) : (
           <div>Quem é você?</div>
         )}
-        {/* <button
-          onClick={() => signOut({callbackUrl:"/"})}>
-            signOut
-          </button> */}
       </div>
     </>
   );

@@ -17,7 +17,7 @@ const handler = NextAuth({
         return false; 
       }
     },
-    async redirect({ url, baseUrl }) {
+    async redirect({ baseUrl }) {
       return baseUrl;
     },
   },

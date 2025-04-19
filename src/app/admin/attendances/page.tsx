@@ -107,14 +107,14 @@ export default function AttendancePage() {
 
     if (attendance) {
 
-      var selectedClass = getClassFromClassId(attendance.class._id);
+      let selectedClass = getClassFromClassId(attendance.class._id);
       updateFilteredStudentsFromSelectedClass(selectedClass);
 
       setForm({
         _id: attendance._id,
         class: attendance.class,
         date: attendance.date,
-        absentStudents: attendance.absentStudents.map((s:any) => (typeof s === "string" ? s : s._id)),
+        absentStudents: (attendance.absentStudents as unknown as IStudent[]).map((s) => s._id),
       });
       setEditing(true);
     } else {
@@ -132,7 +132,7 @@ export default function AttendancePage() {
   }
 
   function handleClassSelection(classId: string) {
-    var selectedClass = getClassFromClassId(classId);
+    let selectedClass = getClassFromClassId(classId);
     setForm({ ...form,  class: { _id: selectedClass?._id, title: selectedClass?.title }});
     updateFilteredStudentsFromSelectedClass(selectedClass);
   }
@@ -189,7 +189,7 @@ export default function AttendancePage() {
         {/* Mobile-Friendly Attendance List */}
         <div className="space-y-4 sm:hidden">
           {attendances.length > 0 ? (
-            attendances.map((attendance, index) => (
+            attendances.map((attendance) => (
               <div key={attendance._id} className="p-4 border rounded bg-white shadow">
                 <p className="text-lg font-semibold">{attendance.class?.title}</p>
                 <p className="text-sm text-gray-600">{attendance.date

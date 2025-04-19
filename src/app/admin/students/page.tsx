@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { format, parseISO } from "date-fns";
+import { parseISO } from "date-fns";
 import { faixas } from "@/app/constants";
 import { ptBR } from "date-fns/locale";
 
