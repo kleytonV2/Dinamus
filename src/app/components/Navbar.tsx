@@ -54,9 +54,11 @@ export default function Navbar() {
     <nav className="fixed w-full bottom-0 lg:bottom-auto lg:top-10 z-50 py-3">
       <div className="container px-4 mx-auto relative text-sm">
         <div className="flex justify-center items-center">
-          <div className="hidden lg:flex space-x-12">
-            <Image className="h-auto w-20 mr-2 pl-10" src={logo} alt="logo" />
-          </div>
+          {/* 
+            <div className="hidden lg:flex space-x-12">
+              <Image className="h-auto w-20 mr-2 pl-10" src={logo} alt="logo" />
+            </div> 
+          */}
           <ul id="linksList" className="flex lg:space-x-12 backdrop-blur rounded-3xl px-2">
             {navItems.map((item, index) => (
               <li key={index}>

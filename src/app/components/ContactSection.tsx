@@ -1,7 +1,7 @@
 import Image from 'next/image';
-import phone from "@/app/assets/icon_phone.svg";
-import mail from "@/app/assets/icon_mail.svg";
-import pin_drop from "@/app/assets/icon_pin_drop.svg";
+import phone from "@/app/assets/icons/icon_phone.svg";
+import mail from "@/app/assets/icons/icon_mail.svg";
+import pin_drop from "@/app/assets/icons/icon_pin_drop.svg";
 
 export default function ContactSection () {
 
