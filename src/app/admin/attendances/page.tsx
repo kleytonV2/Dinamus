@@ -107,7 +107,7 @@ export default function AttendancePage() {
 
     if (attendance) {
 
-      let selectedClass = getClassFromClassId(attendance.class._id);
+      const selectedClass = getClassFromClassId(attendance.class._id);
       updateFilteredStudentsFromSelectedClass(selectedClass);
 
       setForm({
@@ -132,7 +132,7 @@ export default function AttendancePage() {
   }
 
   function handleClassSelection(classId: string) {
-    let selectedClass = getClassFromClassId(classId);
+    const selectedClass = getClassFromClassId(classId);
     setForm({ ...form,  class: { _id: selectedClass?._id, title: selectedClass?.title }});
     updateFilteredStudentsFromSelectedClass(selectedClass);
   }
@@ -153,7 +153,7 @@ export default function AttendancePage() {
 
   function getStundentsFromSelectedClass(selectedClass: IClass | null)
   {
-    const studentsIdFromSelectedClass = (selectedClass?.students || []).map((s: any) => s._id);
+    const studentsIdFromSelectedClass = (selectedClass?.students || []).map((s) => s._id);
 
     return students.filter((student) =>
       studentsIdFromSelectedClass.includes(student._id)
