@@ -34,7 +34,7 @@ export default function ClassesPage() {
   useEffect(() => {
     fetchStudents();
     fetchClasses();
-    setTimeout(() => setFadeIn(true), 500); // Fade-in effect
+    setTimeout(() => setFadeIn(true), 500);
   }, []);
 
   async function fetchStudents() {
@@ -113,7 +113,6 @@ export default function ClassesPage() {
     <div className="max-w-6xl mx-auto px-4 py-6">
       <h1 className="text-3xl font-bold text-center mb-6">Treinos</h1>
 
-      {/* Fade-in effect */}
       <div className={`transition-opacity duration-500 ${fadeIn ? "opacity-100" : "opacity-0"}`}>
         <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
           <a href="/admin" className="text-blue-500 underline mb-2 sm:mb-0">Home</a>

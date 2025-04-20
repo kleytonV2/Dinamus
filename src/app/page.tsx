@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <section id='home' data-bg="dark" className="bg-fixed w-full h-screen top-0 left-0 bg-cover bg-center"
+      <section id='home' data-bg="dark" className="bg-sticky w-full h-screen top-0 left-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${bannerOverlay.src})` }}>
         <HeroSection />
       </section>

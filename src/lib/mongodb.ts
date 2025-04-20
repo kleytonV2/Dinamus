@@ -6,24 +6,29 @@ if (!MONGODB_URI) {
   throw new Error("Please define the MONGODB_URI environment variable inside .env.local");
 }
 
-let cachedConnection: typeof mongoose | null = null;
+let cached = (global as any).mongoose || { conn: null, promise: null };
 
 export const connectToDatabase = async () => {
-    if (cachedConnection) {
-        console.log("Using cached MongoDB connection");
-        return cachedConnection;
-    }
-
     try {
-        console.log("Connecting to MongoDB...");
-        cachedConnection = await mongoose.connect(MONGODB_URI, {
-            dbName: "Dinamus", 
-        });
 
-        console.log("MongoDB Connected ✅");
-        return cachedConnection;
+        if (cached.conn) return cached.conn;
+
+        if (!cached.promise) {
+            cached.promise = mongoose.connect(MONGODB_URI, {
+                dbName: "Dinamus", 
+                bufferCommands: false
+            });
+        }
+    
+        console.log("Connecting to MongoDB...");
+        
+        cached.conn = await cached.promise;
+        (global as any).mongoose = cached;
+
+        console.log("MongoDB Connected!");
+        return cached.conn;
     } catch (error) {
-        console.error("MongoDB Connection Error ❌", error);
+        console.error("MongoDB Connection Error", error);
         throw new Error("Failed to connect to MongoDB");
     }
 };

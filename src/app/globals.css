@@ -5,17 +5,10 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --vh: 100%;
 }
 
 html {
   scroll-behavior: smooth;
-}
-
-@media (max-width: 768px) {
-  :root {
-    --vh: 100vh;
-  }
 }
 
 body {

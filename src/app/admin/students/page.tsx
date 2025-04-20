@@ -20,8 +20,8 @@ export default function StudentsPage() {
   const [students, setStudents] = useState<IStudent[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [editing, setEditing] = useState<boolean>(false);
+  const [fadeIn, setFadeIn] = useState(false);
   const [form, setForm] = useState<IStudent>({ name: "", lastName: "", birthday: new Date(), belt: "Branca", email: "" });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     fetchStudents();
@@ -31,7 +31,7 @@ export default function StudentsPage() {
     const res = await fetch("/api/students");
     const data = await res.json();
     setStudents(data);
-    setIsLoading(false);
+    setTimeout(() => setFadeIn(true), 500);
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -95,7 +95,7 @@ export default function StudentsPage() {
     <div className="max-w-6xl mx-auto px-4 py-6">
       <h1 className="text-3xl font-bold text-center mb-6">Alunos</h1>
 
-      <div className={`transition-opacity duration-500 ${isLoading ? "opacity-0" : "opacity-100"}`}>
+      <div className={`transition-opacity duration-500 ${fadeIn ? "opacity-100" : "opacity-0"}`}>
 
         <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
             <a href="/admin" className="text-blue-500 underline mb-2 sm:mb-0">Home</a>
