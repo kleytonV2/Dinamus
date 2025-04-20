@@ -5,18 +5,18 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --vh: 100%;
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-/* @media (prefers-color-scheme: dark) {
+@media (max-width: 768px) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --vh: 100vh;
   }
-} */
+}
 
 body {
   color: var(--foreground);

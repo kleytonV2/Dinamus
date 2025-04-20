@@ -7,7 +7,7 @@ export default function ClassesSection () {
           return (
             <div
               key={index}
-              className="group relative flex justify-center lg:w-1/2 w-5/6 h-96 mx-10 border my-2 rounded-lg overflow-hidden">
+              className="group relative flex justify-center lg:w-1/2 w-5/6 lg:h-96 mx-10 border mb-12 lg:my-2  rounded-lg overflow-hidden">
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
                 style={{ backgroundImage: `url(${item.bgImageUrl.src})` }}
