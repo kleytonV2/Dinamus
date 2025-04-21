@@ -12,7 +12,11 @@ const StudentSchema = new Schema<IStudent>({
   name: { type: String, required: true },
   lastName: { type: String, required: true },
   birthday: { type: Date, required: true },
-  belt: { type: String, required: true },
+  belt: { 
+    type: String,
+    enum: ["Branca", "Amarela", "Laranja", "Verde", "Azul", "Roxa", "Marrom", "Preta", "Coral", "Vermelha"],
+    required: true 
+  },
   email: { type: String, required: false, unique: true },
 });
 

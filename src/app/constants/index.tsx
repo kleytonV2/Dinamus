@@ -5,24 +5,18 @@ export const navItems = [
     { label: "Contato", href: "#contato" }
 ];
 
+export const adminNavItems = [
+    { label: "Home", href: "./" },
+    { label: "Alunos", href: "./students" },
+    { label: "Treinos", href: "./classes" },
+    { label: "Assistências", href: "./attendances" }
+];
+
 export const sections = [
     { id: "home", label: "Home", dataBg: "dark", height: "lg:h-screen" },
     { id: "treinos", label: "Treinos", dataBg: "dark", height: "lg:h-screen" },
     { id: "sobre", label: "Sobre", dataBg: "light", height: "lg:h-screen" },
     { id: "contato", label: "Contato", dataBg: "light", height: "" }
-];
-
-export const faixas = [
-    { label: "Branca" },
-    { label: "Amarela" },
-    { label: "Laranja" },
-    { label: "Verde" },
-    { label: "Azul" },
-    { label: "Roxa" },
-    { label: "Marrom" },
-    { label: "Preta" },
-    { label: "Coral" },
-    { label: "Vermelha" }
 ];
 
 import studentsIcon from "@/app/assets/icons/studentsIcon.svg";
