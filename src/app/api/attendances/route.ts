@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import Attendance from "@/models/Attendance";
+import "@/models/Class";
+import "@/models/Student";
 import { connectToDatabase } from "@/lib/mongodb";
 import mongoose from "mongoose";
 
