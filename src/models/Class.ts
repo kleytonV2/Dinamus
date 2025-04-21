@@ -10,7 +10,11 @@ export interface IClass extends Document {
 
 const ClassSchema = new Schema<IClass>({
   title: { type: String, required: true },
-  dayOfWeek: { type: String, required: true },
+  dayOfWeek: { 
+    type: String, 
+    enum: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],
+    required: true 
+  },
   startTime: { type: String, required: true },
   endTime: { type: String, required: true },
   students: [{ type: Schema.Types.ObjectId, ref: "Student" }]
