@@ -5,6 +5,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ptBR } from "date-fns/locale";
 import AdminNavbar from '@/app/admin/components/AdminNavbar';
+import Image from 'next/image';
+import addIcon from "@/app/assets/icons/addIcon.svg";
+import SearchInput from "@/app/admin/components/SearchInput";
 
 interface IStudent {
   _id: string;
@@ -34,7 +37,6 @@ export default function AttendancePage() {
   const [classes, setClasses] = useState<IClass[]>([]); 
   const [showModal, setShowModal] = useState(false);
   const [editing, setEditing] = useState(false);
-  const [fadeIn, setFadeIn] = useState(false);
   const [form, setForm] = useState<IAttendance>({
     class: {
       _id: "",
@@ -44,30 +46,45 @@ export default function AttendancePage() {
     absentStudents: [],
   });
   const [filteredStudents, setFilteredStudents] = useState<IStudent[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTermStudent, setSearchTermStudent] = useState("");
 
   useEffect(() => {
     fetchStudents();
     fetchClasses();
     fetchAttendances();
-    setTimeout(() => setFadeIn(true), 500); // Fade-in effect
+    setLoading(false); 
   }, []);
 
   async function fetchStudents() {
-    const res = await fetch("/api/students");
-    const data = await res.json();
-    setStudents(data);
+    try{
+      const res = await fetch("/api/students");
+      const data = await res.json();
+      setStudents(data);
+    } catch (error) {
+      console.error("Failed to fetch students:", error);
+    }
   }
 
   async function fetchClasses() {
-    const res = await fetch("/api/classes");
-    const data = await res.json();
-    setClasses(data);
+    try{
+      const res = await fetch("/api/classes");
+      const data = await res.json();
+      setClasses(data);
+    } catch (error) {
+      console.error("Failed to fetch classes:", error);
+    }
   }
 
   async function fetchAttendances() {
-    const res = await fetch("/api/attendances");
-    const data = await res.json();
-    setAttendances(data);
+    try{
+      const res = await fetch("/api/attendances");
+      const data = await res.json();
+      setAttendances(data);
+    } catch (error) {
+      console.error("Failed to fetch attendances:", error);
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -174,24 +191,41 @@ export default function AttendancePage() {
     setForm({ ...form, absentStudents: updatedAbsentStudents });
   }
 
+  if (loading || students.length === 0 || classes.length === 0 || attendances.length === 0) {
+    return (
+      <>
+        <AdminNavbar />
+        <div className="flex justify-center items-center min-h-screen">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500" />
+        </div>
+      </>
+    );
+  }
+  
   return (
     <>
       <AdminNavbar />
       
       <div className="max-w-6xl mx-auto px-4 py-6 pt-24">
 
-        {/* Fade-in effect */}
-        <div className={`transition-opacity duration-500 ${fadeIn ? "opacity-100" : "opacity-0"}`}>
-          <div className="flex flex-col sm:flex-row justify-end items-center mb-4">
-            <button onClick={() => openModal()} className="px-4 py-2 bg-green-500 text-white rounded shadow hover:bg-green-600 transition">
-              Adicionar assistência
+        <div className={`transition-opacity duration-500`}>
+          <div className="flex flex-row justify-between mb-4">
+            <SearchInput
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Buscar treinos..."
+            />
+            <button onClick={() => openModal()} className="px-1 py-1 bg-green-500 text-white rounded shadow hover:bg-green-600 transition">
+                <Image className="" src={addIcon} alt="icon" />
             </button>
           </div>
 
           {/* Mobile-Friendly Attendance List */}
           <div className="space-y-4 sm:hidden">
             {attendances.length > 0 ? (
-              attendances.map((attendance) => (
+              attendances.filter((at) =>
+                  at.class.title?.toLowerCase().includes(searchTerm.toLowerCase())
+                ).map((attendance) => (
                 <div key={attendance._id} className="p-4 border rounded bg-white shadow">
                   <p className="text-lg font-semibold">{attendance.class?.title}</p>
                   <p className="text-sm text-gray-600">{attendance.date
@@ -227,7 +261,9 @@ export default function AttendancePage() {
               </thead>
               <tbody>
                 {attendances.length > 0 ? (
-                  attendances.map((attendance, index) => (
+                  attendances.filter((at) =>
+                    at.class.title?.toLowerCase().includes(searchTerm.toLowerCase())
+                  ).map((attendance, index) => (
                     <tr key={attendance._id} className={`${index % 2 === 0 ? "bg-gray-50" : "bg-white"}`}>
                       <td className="px-4 py-3 text-sm text-gray-700">{attendance.class?.title}</td>
                       <td className="px-4 py-3 text-sm text-gray-700">{attendance.date
@@ -266,24 +302,37 @@ export default function AttendancePage() {
               <h2 className="text-2xl font-bold mb-4">{editing ? "Editar assistência" : "Adicionar assistência"}</h2>
 
               <form onSubmit={handleSubmit} className="flex flex-col space-y-3">
-                <select
-                  value={form.class._id}
-                  onChange={(e) => handleClassSelection(e.target.value)}
-                  className="w-full p-2 border rounded"
-                  required
-                  disabled={editing}
-                >
-                  <option value="">Selecione uma classe</option>
-                  {classes.map((cls) => (
-                    <option key={cls._id} value={cls._id}>
-                      {cls.title}
-                    </option>
-                  ))}
-                </select>
+                <div className="relative w-full">
+                  <select
+                    id="class"
+                    value={form.class._id}
+                    onChange={(e) => handleClassSelection(e.target.value)}
+                    className="peer p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 bg-transparent appearance-none 
+                        focus:outline-none focus:border-blue-500"
+                    required
+                    disabled={editing}
+                  >
+                    <option value="">Selecione uma classe</option>
+                    {classes.map((cls) => (
+                      <option key={cls._id} value={cls._id}>
+                        {cls.title}
+                      </option>
+                    ))}
+                  </select>
 
-                <div className="mt-4">
-                  <label className="block text-sm font-medium text-gray-700">Data</label>
+                  <label
+                    htmlFor="class"
+                    className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all 
+                      peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+                      peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                  >
+                    Classe
+                  </label>
+                </div>
+                
+                <div className="relative w-full">
                   <DatePicker
+                    id="date"
                     selected={form.date ? new Date(form.date) : null}
                     onChange={(date) => setForm({ ...form, date: date ? date : new Date() })}
                     dateFormat="dd-MM-yyyy"
@@ -292,16 +341,26 @@ export default function AttendancePage() {
                     yearDropdownItemNumber={100}
                     maxDate={new Date()} 
                     locale={ptBR}
-                    className="w-full p-2 mt-1 border rounded-md"
+                    placeholderText="Data de nascimento"
+                    className="p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
                   />
+                  <label
+                    htmlFor="date"
+                    className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all"
+                  >
+                    Data
+                  </label>
                 </div>
 
                 {/* Student Selection for Absent Students */}
                 {form.class._id && filteredStudents.length > 0 && (
                   <div className="mt-4">
-                    <p className="font-semibold text-lg mb-2">Selecionar alunos ausentes:</p>
-
-                    <div className="scrollable-container mb-2">
+                    <SearchInput
+                      value={searchTermStudent}
+                      onChange={(e) => setSearchTermStudent(e.target.value)}
+                      placeholder="Buscar alunos..."
+                    />
+                    <div className="scrollable-container my-2">
                       <table className="w-full border-collapse border border-gray-300">
                         <thead className="bg-gray-200">
                           <tr>
@@ -310,7 +369,9 @@ export default function AttendancePage() {
                           </tr>
                         </thead>
                         <tbody>
-                          {filteredStudents.map((student) => {
+                          {filteredStudents.filter((st) =>
+                            (st.lastName.toLowerCase() + st.name.toLowerCase()).trim().includes(searchTermStudent.replace(",","").trim().toLowerCase())
+                            ).map((student) => {
 
                             const isAbsent = form.absentStudents.includes(student._id);
                             

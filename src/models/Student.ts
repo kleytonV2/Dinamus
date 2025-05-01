@@ -17,7 +17,7 @@ const StudentSchema = new Schema<IStudent>({
     enum: ["Branca", "Amarela", "Laranja", "Verde", "Azul", "Roxa", "Marrom", "Preta", "Coral", "Vermelha"],
     required: true 
   },
-  email: { type: String, required: false, unique: true },
+  email: { type: String, required: false },
 });
 
 export default mongoose.models.Student || mongoose.model<IStudent>("Student", StudentSchema);

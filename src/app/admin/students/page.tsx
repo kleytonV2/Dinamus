@@ -7,6 +7,9 @@ import { parseISO } from "date-fns";
 import { Belts } from "@/types/types";
 import { ptBR } from "date-fns/locale";
 import AdminNavbar from '@/app/admin/components/AdminNavbar';
+import Image from 'next/image';
+import addIcon from "@/app/assets/icons/addIcon.svg";
+import SearchInput from "@/app/admin/components/SearchInput";
 
 interface IStudent {
   _id?: string;
@@ -21,18 +24,23 @@ export default function StudentsPage() {
   const [students, setStudents] = useState<IStudent[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [editing, setEditing] = useState<boolean>(false);
-  const [fadeIn, setFadeIn] = useState(false);
-  const [form, setForm] = useState<IStudent>({ name: "", lastName: "", birthday: new Date(), belt: "Branca", email: "" });
+  const [form, setForm] = useState<IStudent>({ name: "", lastName: "", birthday: new Date(), belt: "", email: "" });
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetchStudents();
+    setLoading(false); 
   }, []);
 
   async function fetchStudents() {
-    const res = await fetch("/api/students");
-    const data = await res.json();
-    setStudents(data);
-    setTimeout(() => setFadeIn(true), 500);
+    try{
+      const res = await fetch("/api/students");
+      const data = await res.json();
+      setStudents(data);
+    } catch (error) {
+      console.error("Failed to fetch students:", error);
+    } 
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -63,7 +71,7 @@ export default function StudentsPage() {
       setForm(student);
       setEditing(true);
     } else {
-      setForm({ name: "", lastName: "", birthday: new Date(), belt: "Branca", email: "" });
+      setForm({ name: "", lastName: "", birthday: new Date(), belt: "", email: "" });
       setEditing(false);
     }
     setShowModal(true);
@@ -71,7 +79,7 @@ export default function StudentsPage() {
 
   function closeModal() {
     setShowModal(false);
-    setForm({ name: "", lastName: "", birthday: new Date(), belt: "Branca", email: "" });
+    setForm({ name: "", lastName: "", birthday: new Date(), belt: "", email: "" });
     setEditing(false);
   }
 
@@ -92,23 +100,41 @@ export default function StudentsPage() {
     return age;
   }
 
+  if (loading || students.length === 0) {
+    return (
+      <>
+        <AdminNavbar />
+        <div className="flex justify-center items-center min-h-screen">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500" />
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <AdminNavbar/>
       <div className="max-w-6xl mx-auto px-4 py-6 pt-24">
         
-        <div className={`transition-opacity duration-500 ${fadeIn ? "opacity-100" : "opacity-0"}`}>
+        <div className={`transition-opacity duration-500`}>
 
-          <div className="flex flex-col sm:flex-row justify-end items-center mb-4">
-              <button onClick={() => openModal()} className="px-4 py-2 bg-green-500 text-white rounded shadow hover:bg-green-600 transition">
-                  Adicionar Aluno
-              </button>
+          <div className="flex flex-row justify-between mb-4">
+            <SearchInput
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Buscar treinos..."
+            />
+            <button onClick={() => openModal()} className="px-1 py-1 bg-green-500 text-white rounded shadow hover:bg-green-600 transition">
+                <Image className="" src={addIcon} alt="icon" />
+            </button>
           </div>
 
           {/* Mobile-Friendly Student List */}
           <div className="space-y-4 sm:hidden">
               {students.length > 0 ? (
-              students.map((student) => (
+              students.filter((st) =>
+                (st.lastName.toLowerCase() + st.name.toLowerCase()).trim().includes(searchTerm.replace(",","").trim().toLowerCase())
+                ).map((student) => (
                   <div key={student._id} className="p-4 border rounded bg-white shadow">
                   <p className="text-lg font-semibold">{student.lastName}, {student.name}</p>
                   <p className="text-sm text-gray-600">Nascimento: {
@@ -146,7 +172,9 @@ export default function StudentsPage() {
               </thead>
               <tbody>
                   {students.length > 0 ? (
-                  students.map((student, index) => (
+                  students.filter((st) =>
+                    (st.lastName.toLowerCase() + st.name.toLowerCase()).trim().includes(searchTerm.replace(",","").trim().toLowerCase())
+                  ).map((student, index) => (
                       <tr key={student._id} className={`${index % 2 === 0 ? "bg-gray-50" : "bg-white"}`}>
                       <td className="px-4 py-3 text-sm text-gray-700">{student.lastName}, {student.name}</td>
                       <td className="px-4 py-3 text-sm text-gray-700">{
@@ -187,11 +215,43 @@ export default function StudentsPage() {
                   <h2 className="text-2xl font-bold mb-4">{editing ? "Editar Aluno" : "Adicionar Aluno"}</h2>
 
                   <form onSubmit={handleSubmit} className="flex flex-col space-y-3">
-                    <input type="text" placeholder="Nome" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="w-full p-2 border rounded" required />
-                    <input type="text" placeholder="Apelhido" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} className="w-full p-2 border rounded" required />
-                    <div className="mt-4">
-                      <label className="block text-sm font-medium text-gray-700">Data de nascimento</label>
+                    <div className="relative w-full">
+                      <input
+                        type="text"
+                        id="name"
+                        className="peer p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
+                        placeholder="Nome"
+                        value={form.name} 
+                        onChange={(e) => setForm({ ...form, name: e.target.value })} 
+                        required 
+                      />
+                      <label
+                        htmlFor="name"
+                        className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                      >
+                        Nome
+                      </label>
+                    </div>
+                    <div className="relative w-full">
+                      <input
+                        type="text"
+                        id="lastname"
+                        className="peer p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
+                        placeholder="Apelhido"
+                        value={form.lastName} 
+                        onChange={(e) => setForm({ ...form, lastName: e.target.value })} 
+                        required
+                      />
+                      <label
+                        htmlFor="lastname"
+                        className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                      >
+                        Apelhido
+                      </label>
+                    </div>
+                    <div className="relative w-full">
                       <DatePicker
+                        id="date"
                         selected={form.birthday ? new Date(form.birthday) : null}
                         onChange={(date) => setForm({ ...form, birthday: date ? date : new Date() })}
                         dateFormat="dd-MM-yyyy"
@@ -200,27 +260,62 @@ export default function StudentsPage() {
                         yearDropdownItemNumber={100}
                         maxDate={new Date()} 
                         locale={ptBR}
-                        className="w-full p-2 mt-1 border rounded-md"
+                        placeholderText="Data de nascimento"
+                        className="p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
                       />
+                      <label
+                        htmlFor="date"
+                        className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all"
+                      >
+                        Data de nascimento
+                      </label>
                     </div>
-                    <div className="mt-4">
-                      <label className="block text-sm font-medium text-gray-700">Faixa</label>
+                    
+                    <div className="relative w-full">
                       <select
+                        id="belt"
                         value={form.belt}
                         onChange={(e) => setForm({ ...form, belt: e.target.value })}
-                        className="w-full p-2 mt-1 border rounded-md"
+                        className="peer p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 bg-transparent appearance-none 
+                          focus:outline-none focus:border-blue-500"
                         >
+                        <option value="">Selecione uma faixa</option>
                         {Object.values(Belts).map((value, index) => (
                           <option key={index} value={value}>{value}</option>
                         ))}
                       </select>
-                    </div>
-                    <input type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="w-full p-2 border rounded" required />
 
-                    <div className="flex justify-between mt-4">
-                        <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">{editing ? "Atualizar" : "Guardar"}</button>
-                        <button onClick={closeModal} type="button" className="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                      <label
+                        htmlFor="belt"
+                        className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all 
+                          peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+                          peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                      >
+                        Faixa
+                      </label>
                     </div>
+                    <div className="relative w-full">
+                      <input
+                        type="email"
+                        id="email"
+                        className="peer p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
+                        placeholder="Email"
+                        value={form.email} 
+                        onChange={(e) => setForm({ ...form, email: e.target.value })} 
+                        required
+                      />
+                      <label
+                        htmlFor="email"
+                        className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                      >
+                        Email
+                      </label>
+                    </div>
+                    
+                    <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+                      {editing ? "Atualizar" : "Guardar"}
+                    </button>
+                  
                   </form>
               </div>
               </div>
