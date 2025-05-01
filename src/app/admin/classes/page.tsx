@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import { DaysOfWeek } from "@/types/types";
 import AdminNavbar from '@/app/admin/components/AdminNavbar';
+import Image from 'next/image';
+import addIcon from "@/app/assets/icons/addIcon.svg";
+import SearchInput from "@/app/admin/components/SearchInput";
 
 interface IStudent {
   _id: string;
@@ -24,7 +27,6 @@ export default function ClassesPage() {
   const [students, setStudents] = useState<IStudent[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [editing, setEditing] = useState(false);
-  const [fadeIn, setFadeIn] = useState(false);
   const [form, setForm] = useState<IClass>({
     title: "",
     dayOfWeek: "",
@@ -32,23 +34,34 @@ export default function ClassesPage() {
     endTime: "",
     students: [],
   });
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTermStudent, setSearchTermStudent] = useState("");
 
   useEffect(() => {
     fetchStudents();
     fetchClasses();
-    setTimeout(() => setFadeIn(true), 500);
+    setLoading(false);
   }, []);
 
   async function fetchStudents() {
-    const res = await fetch("/api/students");
-    const data = await res.json();
-    setStudents(data);
+    try{
+      const res = await fetch("/api/students");
+      const data = await res.json();
+      setStudents(data);
+    } catch (error) {
+      console.error("Failed to fetch students:", error);
+    }
   }
 
   async function fetchClasses() {
-    const res = await fetch("/api/classes");
-    const data = await res.json();
-    setClasses(data);
+    try{
+      const res = await fetch("/api/classes");
+      const data = await res.json();
+      setClasses(data);
+    } catch (error) {
+      console.error("Failed to fetch classes:", error);
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -111,16 +124,32 @@ export default function ClassesPage() {
     setForm({ ...form, students: updatedStudents });
   }
 
+  if (loading || students.length === 0 || classes.length === 0) {
+    return (
+      <>
+        <AdminNavbar />
+        <div className="flex justify-center items-center min-h-screen">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500" />
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <AdminNavbar/>
 
       <div className="max-w-6xl mx-auto px-4 py-6 pt-24">
 
-        <div className={`transition-opacity duration-500 ${fadeIn ? "opacity-100" : "opacity-0"}`}>
-          <div className="flex flex-col sm:flex-row justify-end items-center mb-4">
-            <button onClick={() => openModal()} className="px-4 py-2 bg-green-500 text-white rounded shadow hover:bg-green-600 transition">
-              Adicionar Treino
+        <div className={`transition-opacity duration-500`}>
+          <div className="flex flex-row justify-between mb-4">
+            <SearchInput
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Buscar treinos..."
+            />
+            <button onClick={() => openModal()} className="px-1 py-1 bg-green-500 text-white rounded shadow hover:bg-green-600 transition">
+                <Image className="" src={addIcon} alt="icon" />
             </button>
           </div>
 
@@ -128,7 +157,9 @@ export default function ClassesPage() {
           <div className="space-y-4 sm:hidden">
               <div className="space-y-4 sm:hidden">
                   {classes.length > 0 ? (
-                      classes.map((cls) => (
+                      classes.filter((cls) =>
+                        cls.title.toLowerCase().includes(searchTerm.toLowerCase())
+                      ).map((cls) => (
                           <div key={cls._id} className="p-4 border rounded bg-white shadow">
                               <p className="text-lg font-semibold">{cls.title}</p>
                               <p className="text-sm text-gray-600">{cls.dayOfWeek}</p>
@@ -160,7 +191,9 @@ export default function ClassesPage() {
               </thead>
               <tbody>
                 {classes.length > 0 ? (
-                  classes.map((cls, index) => (
+                  classes.filter((cls) =>
+                    cls.title.toLowerCase().includes(searchTerm.toLowerCase())
+                  ).map((cls, index) => (
                     <tr key={cls._id} className={`${index % 2 === 0 ? "bg-gray-50" : "bg-white"}`}>
                       <td className="px-4 py-3 text-sm text-gray-700">{cls.title}</td>
                       <td className="px-4 py-3 text-sm text-gray-700">{cls.dayOfWeek}</td>
@@ -195,27 +228,88 @@ export default function ClassesPage() {
               <h2 className="text-2xl font-bold mb-4">{editing ? "Editar Treino" : "Adicionar Treino"}</h2>
 
               <form onSubmit={handleSubmit} className="flex flex-col space-y-3">
-                <input type="text" placeholder="Título" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="w-full p-2 border rounded" required />
-                <div className="mt-4">
-                  <label className="block text-sm font-medium text-gray-700">Día da semana</label>
+                <div className="relative w-full">
+                  <input
+                    type="text"
+                    id="title"
+                    className="peer p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
+                    placeholder="Título"
+                    value={form.title} 
+                    onChange={(e) => setForm({ ...form, title: e.target.value })} 
+                    required
+                  />
+                  <label
+                    htmlFor="title"
+                    className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                  >
+                    Título
+                  </label>
+                </div>
+                <div className="relative w-full">
                   <select
+                    id="dayOfWeek"
                     value={form.dayOfWeek}
                     onChange={(e) => setForm({ ...form, dayOfWeek: e.target.value })}
-                    className="w-full p-2 mt-1 border rounded-md"
+                    className="peer p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 bg-transparent appearance-none 
+                      focus:outline-none focus:border-blue-500"
                     >
                     {Object.values(DaysOfWeek).map((value, index) => (
                       <option key={index} value={value}>{value}</option>
                     ))}
                   </select>
+
+                  <label
+                    htmlFor="dayOfWeek"
+                    className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all 
+                      peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+                      peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                  >
+                    Día da semana
+                  </label>
                 </div>
-                <input type="time" placeholder="Hora início" value={form.startTime} onChange={(e) => setForm({ ...form, startTime: e.target.value })} className="w-full p-2 border rounded" required />
-                <input type="time" placeholder="Hora fim" value={form.endTime} onChange={(e) => setForm({ ...form, endTime: e.target.value })} className="w-full p-2 border rounded" required />
+                <div className="relative w-full">
+                  <input
+                    type="time"
+                    id="startDate"
+                    className="peer p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
+                    placeholder="Hora início"
+                    value={form.startTime} 
+                    onChange={(e) => setForm({ ...form, startTime: e.target.value })} 
+                    required
+                  />
+                  <label
+                    htmlFor="startDate"
+                    className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                  >
+                    Hora início
+                  </label>
+                </div>
+                <div className="relative w-full">
+                  <input
+                    type="time"
+                    id="endDate"
+                    className="peer p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
+                    placeholder="Hora fim"
+                    value={form.endTime} 
+                    onChange={(e) => setForm({ ...form, endTime: e.target.value })} 
+                    required
+                  />
+                  <label
+                    htmlFor="endDate"
+                    className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                  >
+                    Hora fim
+                  </label>
+                </div>
 
                   {/* Student Selection */}
                   <div className="mt-4">
-                      <p className="font-semibold text-lg mb-2">Atribuir alunos:</p>
-
-                      <div className="scrollable-container mb-2">
+                      <SearchInput
+                        value={searchTermStudent}
+                        onChange={(e) => setSearchTermStudent(e.target.value)}
+                        placeholder="Buscar alunos..."
+                      />
+                      <div className="scrollable-container my-2">
                           <table className="w-full border-collapse border border-gray-300">
                               <thead className="bg-gray-200">
                                   <tr>
@@ -224,7 +318,9 @@ export default function ClassesPage() {
                                   </tr>
                               </thead>
                               <tbody>
-                                  {students.map((student) => {
+                                  {students.filter((st) =>
+                                    (st.lastName.toLowerCase() + st.name.toLowerCase()).trim().includes(searchTermStudent.replace(",","").trim().toLowerCase())
+                                    ).map((student) => {
                                       const isAssigned = form.students.includes(student._id);
 
                                       return (

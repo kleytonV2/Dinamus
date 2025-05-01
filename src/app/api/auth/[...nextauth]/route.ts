@@ -17,8 +17,8 @@ const handler = NextAuth({
         return false; 
       }
     },
-    async redirect({ baseUrl }) {
-      return baseUrl;
+    async redirect({ url, baseUrl }) {
+      return url.startsWith(baseUrl) ? url : baseUrl + "/admin";
     },
   },
 });
