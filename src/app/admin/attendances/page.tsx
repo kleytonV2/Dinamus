@@ -49,8 +49,6 @@ export default function AttendancePage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchTermStudent, setSearchTermStudent] = useState("");
-  const [startDate, setStartDate] = useState<Date|null>(null);
-  const [endDate, setEndDate] = useState<Date|null>(null);
 
   useEffect(() => {
     fetchStudents();
@@ -227,8 +225,6 @@ export default function AttendancePage() {
             {attendances.length > 0 ? (
               attendances.filter((at) =>
                   at.class.title?.toLowerCase().includes(searchTerm.toLowerCase())
-                  && (startDate != null && at.date >= startDate)
-                  && (endDate != null && at.date >= endDate)
                 ).map((attendance) => (
                 <div key={attendance._id} className="p-4 border rounded bg-white shadow">
                   <p className="text-lg font-semibold">{attendance.class?.title}</p>
