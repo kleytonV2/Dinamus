@@ -232,7 +232,7 @@ export default function ClassesPage() {
                   <input
                     type="text"
                     id="title"
-                    className="peer p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
+                    className="peer mt-4 p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
                     placeholder="Título"
                     value={form.title} 
                     onChange={(e) => setForm({ ...form, title: e.target.value })} 
@@ -240,7 +240,7 @@ export default function ClassesPage() {
                   />
                   <label
                     htmlFor="title"
-                    className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                    className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-1 peer-focus:text-sm peer-focus:text-gray-600"
                   >
                     Título
                   </label>
@@ -250,7 +250,7 @@ export default function ClassesPage() {
                     id="dayOfWeek"
                     value={form.dayOfWeek}
                     onChange={(e) => setForm({ ...form, dayOfWeek: e.target.value })}
-                    className="peer p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 bg-transparent appearance-none 
+                    className="peer mt-4 p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 bg-transparent appearance-none 
                       focus:outline-none focus:border-blue-500"
                     >
                     {Object.values(DaysOfWeek).map((value, index) => (
@@ -260,9 +260,9 @@ export default function ClassesPage() {
 
                   <label
                     htmlFor="dayOfWeek"
-                    className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all 
-                      peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
-                      peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                    className="absolute left-0 -top-1 text-sm text-gray-600 transition-all 
+                      peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+                      peer-focus:-top-1 peer-focus:text-sm peer-focus:text-gray-600"
                   >
                     Día da semana
                   </label>
@@ -271,7 +271,7 @@ export default function ClassesPage() {
                   <input
                     type="time"
                     id="startDate"
-                    className="peer p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
+                    className="peer mt-4 p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
                     placeholder="Hora início"
                     value={form.startTime} 
                     onChange={(e) => setForm({ ...form, startTime: e.target.value })} 
@@ -279,7 +279,7 @@ export default function ClassesPage() {
                   />
                   <label
                     htmlFor="startDate"
-                    className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                    className="absolute left-0 -top-1 text-sm text-gray-600 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-1 peer-focus:text-sm peer-focus:text-gray-600"
                   >
                     Hora início
                   </label>
@@ -288,7 +288,7 @@ export default function ClassesPage() {
                   <input
                     type="time"
                     id="endDate"
-                    className="peer p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
+                    className="peer mt-4 p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
                     placeholder="Hora fim"
                     value={form.endTime} 
                     onChange={(e) => setForm({ ...form, endTime: e.target.value })} 
@@ -296,7 +296,7 @@ export default function ClassesPage() {
                   />
                   <label
                     htmlFor="endDate"
-                    className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                    className="absolute left-0 -top-1 text-sm text-gray-600 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-1 peer-focus:text-sm peer-focus:text-gray-600"
                   >
                     Hora fim
                   </label>
@@ -313,8 +313,8 @@ export default function ClassesPage() {
                           <table className="w-full border-collapse border border-gray-300">
                               <thead className="bg-gray-200">
                                   <tr>
-                                      <th className="border border-gray-300 px-4 py-2 text-left">Nome</th>
-                                      <th className="border border-gray-300 px-4 py-2 text-center">Atribuído</th>
+                                      <th className="border border-gray-300 px-2 py-1 text-left">Nome</th>
+                                      <th className="border border-gray-300 px-2 py-1 text-center">Atribuído</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -325,8 +325,8 @@ export default function ClassesPage() {
 
                                       return (
                                       <tr key={student._id} className="border border-gray-300">
-                                          <td className="px-4 py-2">{student.lastName}, {student.name}</td>
-                                          <td className="px-4 py-2 text-center">
+                                          <td className="px-2 py-1">{student.lastName}, {student.name}</td>
+                                          <td className="px-2 py-1 text-center">
                                               {/* Toggle Switch */}
                                               <label className="relative inline-flex items-center cursor-pointer">
                                                   <input
