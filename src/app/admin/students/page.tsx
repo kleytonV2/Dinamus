@@ -122,7 +122,7 @@ export default function StudentsPage() {
             <SearchInput
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Buscar treinos..."
+              placeholder="Buscar alunos..."
             />
             <button onClick={() => openModal()} className="px-1 py-1 bg-green-500 text-white rounded shadow hover:bg-green-600 transition">
                 <Image className="" src={addIcon} alt="icon" />
