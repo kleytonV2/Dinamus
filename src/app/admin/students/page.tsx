@@ -122,7 +122,7 @@ export default function StudentsPage() {
             <SearchInput
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Buscar treinos..."
+              placeholder="Buscar alunos..."
             />
             <button onClick={() => openModal()} className="px-1 py-1 bg-green-500 text-white rounded shadow hover:bg-green-600 transition">
                 <Image className="" src={addIcon} alt="icon" />
@@ -219,7 +219,7 @@ export default function StudentsPage() {
                       <input
                         type="text"
                         id="name"
-                        className="peer p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
+                        className="peer mt-4 p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
                         placeholder="Nome"
                         value={form.name} 
                         onChange={(e) => setForm({ ...form, name: e.target.value })} 
@@ -227,7 +227,7 @@ export default function StudentsPage() {
                       />
                       <label
                         htmlFor="name"
-                        className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                        className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-1 peer-focus:text-sm peer-focus:text-gray-600"
                       >
                         Nome
                       </label>
@@ -236,7 +236,7 @@ export default function StudentsPage() {
                       <input
                         type="text"
                         id="lastname"
-                        className="peer p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
+                        className="peer mt-4 p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
                         placeholder="Apelhido"
                         value={form.lastName} 
                         onChange={(e) => setForm({ ...form, lastName: e.target.value })} 
@@ -244,7 +244,7 @@ export default function StudentsPage() {
                       />
                       <label
                         htmlFor="lastname"
-                        className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                        className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-1 peer-focus:text-sm peer-focus:text-gray-600"
                       >
                         Apelhido
                       </label>
@@ -261,11 +261,11 @@ export default function StudentsPage() {
                         maxDate={new Date()} 
                         locale={ptBR}
                         placeholderText="Data de nascimento"
-                        className="p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
+                        className="mt-4 p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
                       />
                       <label
                         htmlFor="date"
-                        className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all"
+                        className="absolute left-0 -top-1 text-sm text-gray-600 transition-all"
                       >
                         Data de nascimento
                       </label>
@@ -276,7 +276,7 @@ export default function StudentsPage() {
                         id="belt"
                         value={form.belt}
                         onChange={(e) => setForm({ ...form, belt: e.target.value })}
-                        className="peer p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 bg-transparent appearance-none 
+                        className="peer mt-4 p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 bg-transparent appearance-none 
                           focus:outline-none focus:border-blue-500"
                         >
                         <option value="">Selecione uma faixa</option>
@@ -287,9 +287,9 @@ export default function StudentsPage() {
 
                       <label
                         htmlFor="belt"
-                        className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all 
-                          peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
-                          peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                        className="absolute left-0 -top-1 text-sm text-gray-600 transition-all 
+                          peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+                          peer-focus:-top-1 peer-focus:text-sm peer-focus:text-gray-600"
                       >
                         Faixa
                       </label>
@@ -298,7 +298,7 @@ export default function StudentsPage() {
                       <input
                         type="email"
                         id="email"
-                        className="peer p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
+                        className="peer mt-4 p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
                         placeholder="Email"
                         value={form.email} 
                         onChange={(e) => setForm({ ...form, email: e.target.value })} 
@@ -306,7 +306,7 @@ export default function StudentsPage() {
                       />
                       <label
                         htmlFor="email"
-                        className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                        className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-1 peer-focus:text-sm peer-focus:text-gray-600"
                       >
                         Email
                       </label>

@@ -307,7 +307,7 @@ export default function AttendancePage() {
                     id="class"
                     value={form.class._id}
                     onChange={(e) => handleClassSelection(e.target.value)}
-                    className="peer p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 bg-transparent appearance-none 
+                    className="peer mt-4 p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 bg-transparent appearance-none 
                         focus:outline-none focus:border-blue-500"
                     required
                     disabled={editing}
@@ -322,9 +322,9 @@ export default function AttendancePage() {
 
                   <label
                     htmlFor="class"
-                    className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all 
-                      peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
-                      peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
+                    className="absolute left-0 -top-1 text-sm text-gray-600 transition-all 
+                      peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+                      peer-focus:-top-1 peer-focus:text-sm peer-focus:text-gray-600"
                   >
                     Classe
                   </label>
@@ -342,13 +342,13 @@ export default function AttendancePage() {
                     maxDate={new Date()} 
                     locale={ptBR}
                     placeholderText="Data de nascimento"
-                    className="p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
+                    className="p-2 mt-4 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
                   />
                   <label
                     htmlFor="date"
-                    className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all"
+                    className="absolute left-0 -top-1 text-sm text-gray-600 transition-all"
                   >
-                    Data
+                    Data de nascimento
                   </label>
                 </div>
 
@@ -364,8 +364,8 @@ export default function AttendancePage() {
                       <table className="w-full border-collapse border border-gray-300">
                         <thead className="bg-gray-200">
                           <tr>
-                            <th className="border border-gray-300 px-4 py-2 text-left">Nome</th>
-                            <th className="border border-gray-300 px-4 py-2 text-center">Ausente</th>
+                            <th className="border border-gray-300 px-2 py-1 text-left">Nome</th>
+                            <th className="border border-gray-300 px-2 py-1 text-center">Ausente</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -377,8 +377,8 @@ export default function AttendancePage() {
                             
                             return (
                               <tr key={student._id} className="border border-gray-300">
-                                <td className="px-4 py-2">{student.lastName}, {student.name}</td>
-                                <td className="px-4 py-2 text-center">
+                                <td className="px-2 py-1">{student.lastName}, {student.name}</td>
+                                <td className="px-2 py-1 text-center">
                                   <label className="relative inline-flex items-center cursor-pointer">
                                     <input
                                       type="checkbox"

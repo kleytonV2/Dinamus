@@ -42,9 +42,7 @@ section[data-bg="dark"] .sectionTitle {
 .scrollable-container{
   overflow-x: hidden;
   overflow-y: scroll;
-  height: 14rem;
-  border-radius: 8px;
-  border: 1px solid lightgray;
+  height: 10rem;
 }
 .scrollable-container::-webkit-scrollbar {
   width: 8px; /* Set the width of the scrollbar */
