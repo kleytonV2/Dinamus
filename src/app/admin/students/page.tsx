@@ -1,15 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { parseISO } from "date-fns";
 import { Belts } from "@/types/types";
-import { ptBR } from "date-fns/locale";
 import AdminNavbar from '@/app/admin/components/AdminNavbar';
 import Image from 'next/image';
 import addIcon from "@/app/assets/icons/addIcon.svg";
+import editIcon from "@/app/assets/icons/editIcon.svg";
+import deleteIcon from "@/app/assets/icons/deleteIcon.svg";
 import SearchInput from "@/app/admin/components/SearchInput";
+import TextInput from "@/app/admin/components/TextInput";
+import DatePickerInput from "@/app/admin/components/DatePickerInput";
+import SelectInput from "@/app/admin/components/SelectInput";
 
 interface IStudent {
   _id?: string;
@@ -136,21 +139,25 @@ export default function StudentsPage() {
                 (st.lastName.toLowerCase() + st.name.toLowerCase()).trim().includes(searchTerm.replace(",","").trim().toLowerCase())
                 ).map((student) => (
                   <div key={student._id} className="p-4 border rounded bg-white shadow">
-                  <p className="text-lg font-semibold">{student.lastName}, {student.name}</p>
-                  <p className="text-sm text-gray-600">Nascimento: {
-                                                                      student.birthday
-                                                                        ? `${student.birthday instanceof Date 
-                                                                            ? student.birthday.toLocaleDateString("pt-BR") 
-                                                                            : new Date(student.birthday).toLocaleDateString("pt-BR")} 
-                                                                            (${calculateAge(student.birthday)} anos)`
-                                                                        : ""
-                                                                    }</p>
-                  <p className="text-sm text-gray-600">Faixa: {student.belt}</p>
-                  <p className="text-sm text-gray-600">Email: {student.email}</p>
-                  <div className="flex justify-between mt-2">
-                      <button onClick={() => openModal(student)} className="text-blue-500">Editar</button>
-                      <button onClick={() => handleDelete(student._id!)} className="text-red-500">Eliminar</button>
-                  </div>
+                    <p className="text-lg font-semibold">{student.lastName}, {student.name}</p>
+                    <p className="text-sm text-gray-600">Nascimento: {
+                                                                        student.birthday
+                                                                          ? `${student.birthday instanceof Date 
+                                                                              ? student.birthday.toLocaleDateString("pt-BR") 
+                                                                              : new Date(student.birthday).toLocaleDateString("pt-BR")} 
+                                                                              (${calculateAge(student.birthday)} anos)`
+                                                                          : ""
+                                                                      }</p>
+                    <p className="text-sm text-gray-600">Faixa: {student.belt}</p>
+                    <p className="text-sm text-gray-600">Email: {student.email}</p>
+                    <div className="flex justify-end mt-2">
+                      <button onClick={() => openModal(student)} className="bg-blue-500 mr-4 rounded">
+                        <Image className="" src={editIcon} alt="Editar" />
+                      </button>
+                      <button onClick={() => handleDelete(student._id!)} className="bg-red-500 rounded cursor-pointer">
+                        <Image className="" src={deleteIcon} alt="Eliminar" />
+                      </button>
+                    </div>
                   </div>
               ))
               ) : (
@@ -188,8 +195,12 @@ export default function StudentsPage() {
                       <td className="px-4 py-3 text-sm text-gray-700">{student.belt}</td>
                       <td className="px-4 py-3 text-sm text-gray-700">{student.email}</td>
                       <td className="px-4 py-3 text-sm text-gray-700">
-                          <button onClick={() => openModal(student)} className="text-blue-500 mr-4">Editar</button>
-                          <button onClick={() => handleDelete(student._id!)} className="text-red-500">Eliminar</button>
+                        <button onClick={() => openModal(student)} className="bg-blue-500 mr-4 rounded">
+                          <Image className="" src={editIcon} alt="Editar" />
+                        </button>
+                        <button onClick={() => handleDelete(student._id!)} className="bg-red-500 rounded cursor-pointer">
+                          <Image className="" src={deleteIcon} alt="Eliminar" />
+                        </button>
                       </td>
                       </tr>
                   ))
@@ -215,103 +226,45 @@ export default function StudentsPage() {
                   <h2 className="text-2xl font-bold mb-4">{editing ? "Editar Aluno" : "Adicionar Aluno"}</h2>
 
                   <form onSubmit={handleSubmit} className="flex flex-col space-y-3">
-                    <div className="relative w-full">
-                      <input
-                        type="text"
-                        id="name"
-                        className="peer mt-4 p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
-                        placeholder="Nome"
-                        value={form.name} 
-                        onChange={(e) => setForm({ ...form, name: e.target.value })} 
-                        required 
-                      />
-                      <label
-                        htmlFor="name"
-                        className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-1 peer-focus:text-sm peer-focus:text-gray-600"
-                      >
-                        Nome
-                      </label>
-                    </div>
-                    <div className="relative w-full">
-                      <input
-                        type="text"
-                        id="lastname"
-                        className="peer mt-4 p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
-                        placeholder="Apelhido"
-                        value={form.lastName} 
-                        onChange={(e) => setForm({ ...form, lastName: e.target.value })} 
-                        required
-                      />
-                      <label
-                        htmlFor="lastname"
-                        className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-1 peer-focus:text-sm peer-focus:text-gray-600"
-                      >
-                        Apelhido
-                      </label>
-                    </div>
-                    <div className="relative w-full">
-                      <DatePicker
-                        id="date"
-                        selected={form.birthday ? new Date(form.birthday) : null}
-                        onChange={(date) => setForm({ ...form, birthday: date ? date : new Date() })}
-                        dateFormat="dd-MM-yyyy"
-                        showYearDropdown
-                        scrollableYearDropdown
-                        yearDropdownItemNumber={100}
-                        maxDate={new Date()} 
-                        locale={ptBR}
-                        placeholderText="Data de nascimento"
-                        className="mt-4 p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
-                      />
-                      <label
-                        htmlFor="date"
-                        className="absolute left-0 -top-1 text-sm text-gray-600 transition-all"
-                      >
-                        Data de nascimento
-                      </label>
-                    </div>
-                    
-                    <div className="relative w-full">
-                      <select
-                        id="belt"
-                        value={form.belt}
-                        onChange={(e) => setForm({ ...form, belt: e.target.value })}
-                        className="peer mt-4 p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 bg-transparent appearance-none 
-                          focus:outline-none focus:border-blue-500"
-                        >
-                        <option value="">Selecione uma faixa</option>
-                        {Object.values(Belts).map((value, index) => (
-                          <option key={index} value={value}>{value}</option>
-                        ))}
-                      </select>
+                    <TextInput
+                      id="name"
+                      type="text"
+                      placeholder="Nome"
+                      value={form.name}
+                      onChange={(e) => setForm({ ...form, name: e.target.value })}
+                      required
+                    />
+                    <TextInput
+                      id="lastname"
+                      type="text"
+                      placeholder="Apelhido"
+                      value={form.lastName}
+                      onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+                      required
+                    />
+                    <DatePickerInput
+                      id="birthday"
+                      label="Data de nascimento"
+                      selectedDate={form.birthday ? new Date(form.birthday) : null}
+                      onChange={(date) => setForm({ ...form, birthday: date ? date : new Date() })}
+                    />
+                    <SelectInput
+                      id="belt"
+                      label="Faixa"
+                      value={form.belt}
+                      onChange={(e) => setForm({ ...form, belt: e.target.value })}
+                      options={Object.values(Belts)}
+                      placeholder="Selecione uma faixa"
+                    />
+                    <TextInput
+                      id="email"
+                      type="email"
+                      placeholder="Email"
+                      value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      required
+                    />
 
-                      <label
-                        htmlFor="belt"
-                        className="absolute left-0 -top-1 text-sm text-gray-600 transition-all 
-                          peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
-                          peer-focus:-top-1 peer-focus:text-sm peer-focus:text-gray-600"
-                      >
-                        Faixa
-                      </label>
-                    </div>
-                    <div className="relative w-full">
-                      <input
-                        type="email"
-                        id="email"
-                        className="peer mt-4 p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
-                        placeholder="Email"
-                        value={form.email} 
-                        onChange={(e) => setForm({ ...form, email: e.target.value })} 
-                        required
-                      />
-                      <label
-                        htmlFor="email"
-                        className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-1 peer-focus:text-sm peer-focus:text-gray-600"
-                      >
-                        Email
-                      </label>
-                    </div>
-                    
                     <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
                       {editing ? "Atualizar" : "Guardar"}
                     </button>

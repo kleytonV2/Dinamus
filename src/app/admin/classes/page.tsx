@@ -5,7 +5,11 @@ import { DaysOfWeek } from "@/types/types";
 import AdminNavbar from '@/app/admin/components/AdminNavbar';
 import Image from 'next/image';
 import addIcon from "@/app/assets/icons/addIcon.svg";
+import editIcon from "@/app/assets/icons/editIcon.svg";
+import deleteIcon from "@/app/assets/icons/deleteIcon.svg";
 import SearchInput from "@/app/admin/components/SearchInput";
+import TextInput from "@/app/admin/components/TextInput";
+import SelectInput from "@/app/admin/components/SelectInput";
 
 interface IStudent {
   _id: string;
@@ -149,7 +153,7 @@ export default function ClassesPage() {
               placeholder="Buscar treinos..."
             />
             <button onClick={() => openModal()} className="px-1 py-1 bg-green-500 text-white rounded shadow hover:bg-green-600 transition">
-                <Image className="" src={addIcon} alt="icon" />
+                <Image className="" src={addIcon} alt="Adicionar" />
             </button>
           </div>
 
@@ -165,9 +169,13 @@ export default function ClassesPage() {
                               <p className="text-sm text-gray-600">{cls.dayOfWeek}</p>
                               <p className="text-sm text-gray-600">{cls.startTime} - {cls.endTime}</p>
                               <p className="text-sm text-gray-600">{cls.students.length} Alunos</p>
-                              <div className="flex justify-between mt-2">
-                                  <button onClick={() => openModal(cls)} className="text-blue-500 mr-4">Editar</button>
-                                  <button disabled={cls.students.length > 0} onClick={() => handleDelete(cls._id!)} className="text-red-500">Eliminar</button>
+                              <div className="flex justify-end mt-2">
+                                <button onClick={() => openModal(cls)} className="bg-blue-500 mr-4 rounded">
+                                  <Image className="" src={editIcon} alt="Editar" />
+                                </button>
+                                <button disabled={cls.students.length > 0} onClick={() => handleDelete(cls._id!)} className={`${cls.students.length > 0 ? "bg-gray-500" : "bg-red-500 rounded cursor-pointer" }`}>
+                                  <Image className="" src={deleteIcon} alt="Eliminar" />
+                                </button>
                               </div>
                           </div>
                       ))
@@ -200,8 +208,12 @@ export default function ClassesPage() {
                       <td className="px-4 py-3 text-sm text-gray-700">{cls.startTime} - {cls.endTime}</td>
                       <td className="px-4 py-3 text-sm text-gray-700">{cls.students.length} Alunos</td>
                       <td className="px-4 py-3 text-sm text-gray-700">
-                        <button onClick={() => openModal(cls)} className="text-blue-500 mr-4">Editar</button>
-                        <button onClick={() => handleDelete(cls._id!)} className="text-red-500">Eliminar</button>
+                        <button onClick={() => openModal(cls)} className="bg-blue-500 mr-4 rounded">
+                          <Image className="" src={editIcon} alt="Editar" />
+                        </button>
+                        <button disabled={cls.students.length > 0} onClick={() => handleDelete(cls._id!)} className={`${cls.students.length > 0 ? "bg-gray-500" : "bg-red-500 rounded cursor-pointer" }`}>
+                          <Image className="" src={deleteIcon} alt="Eliminar" />
+                        </button>
                       </td>
                     </tr>
                   ))
@@ -228,127 +240,86 @@ export default function ClassesPage() {
               <h2 className="text-2xl font-bold mb-4">{editing ? "Editar Treino" : "Adicionar Treino"}</h2>
 
               <form onSubmit={handleSubmit} className="flex flex-col space-y-3">
-                <div className="relative w-full">
-                  <input
-                    type="text"
-                    id="title"
-                    className="peer mt-4 p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
-                    placeholder="Título"
-                    value={form.title} 
-                    onChange={(e) => setForm({ ...form, title: e.target.value })} 
-                    required
-                  />
-                  <label
-                    htmlFor="title"
-                    className="absolute left-0 -top-3.5 text-sm text-gray-600 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-1 peer-focus:text-sm peer-focus:text-gray-600"
-                  >
-                    Título
-                  </label>
-                </div>
-                <div className="relative w-full">
-                  <select
-                    id="dayOfWeek"
-                    value={form.dayOfWeek}
-                    onChange={(e) => setForm({ ...form, dayOfWeek: e.target.value })}
-                    className="peer mt-4 p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 bg-transparent appearance-none 
-                      focus:outline-none focus:border-blue-500"
-                    >
-                    {Object.values(DaysOfWeek).map((value, index) => (
-                      <option key={index} value={value}>{value}</option>
-                    ))}
-                  </select>
+                <TextInput
+                  id="title"
+                  type="text"
+                  placeholder="Título"
+                  value={form.title}
+                  onChange={(e) => setForm({ ...form, title: e.target.value })}
+                  required
+                />
+                <SelectInput
+                  id="dayOfWeek"
+                  label="Día da semana"
+                  value={form.dayOfWeek}
+                  onChange={(e) => setForm({ ...form, dayOfWeek: e.target.value })}
+                  options={Object.values(DaysOfWeek)}
+                  placeholder="Selecione uma faixa"
+                />
+                <TextInput
+                  id="startDate"
+                  type="time"
+                  placeholder="Hora início"
+                  value={form.startTime}
+                  onChange={(e) => setForm({ ...form, startTime: e.target.value })}
+                  required
+                />
+                <TextInput
+                  id="endDate"
+                  type="time"
+                  placeholder="Hora fim"
+                  value={form.endTime}
+                  onChange={(e) => setForm({ ...form, endTime: e.target.value })}
+                  required
+                />
 
-                  <label
-                    htmlFor="dayOfWeek"
-                    className="absolute left-0 -top-1 text-sm text-gray-600 transition-all 
-                      peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
-                      peer-focus:-top-1 peer-focus:text-sm peer-focus:text-gray-600"
-                  >
-                    Día da semana
-                  </label>
-                </div>
-                <div className="relative w-full">
-                  <input
-                    type="time"
-                    id="startDate"
-                    className="peer mt-4 p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
-                    placeholder="Hora início"
-                    value={form.startTime} 
-                    onChange={(e) => setForm({ ...form, startTime: e.target.value })} 
-                    required
-                  />
-                  <label
-                    htmlFor="startDate"
-                    className="absolute left-0 -top-1 text-sm text-gray-600 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-1 peer-focus:text-sm peer-focus:text-gray-600"
-                  >
-                    Hora início
-                  </label>
-                </div>
-                <div className="relative w-full">
-                  <input
-                    type="time"
-                    id="endDate"
-                    className="peer mt-4 p-2 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-500"
-                    placeholder="Hora fim"
-                    value={form.endTime} 
-                    onChange={(e) => setForm({ ...form, endTime: e.target.value })} 
-                    required
-                  />
-                  <label
-                    htmlFor="endDate"
-                    className="absolute left-0 -top-1 text-sm text-gray-600 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-1 peer-focus:text-sm peer-focus:text-gray-600"
-                  >
-                    Hora fim
-                  </label>
-                </div>
+                {/* Student Selection */}
+                <div className="mt-4">
+                    <SearchInput
+                      value={searchTermStudent}
+                      onChange={(e) => setSearchTermStudent(e.target.value)}
+                      placeholder="Buscar alunos..."
+                    />
+                    <div className="scrollable-container my-2">
+                        <table className="w-full border-collapse border border-gray-300">
+                            <thead className="bg-gray-200">
+                                <tr>
+                                    <th className="border border-gray-300 px-2 py-1 text-left">Nome</th>
+                                    <th className="border border-gray-300 px-2 py-1 text-center">Atribuído</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {students.filter((st) =>
+                                  (st.lastName.toLowerCase() + st.name.toLowerCase()).trim().includes(searchTermStudent.replace(",","").trim().toLowerCase())
+                                  ).map((student) => {
+                                    const isAssigned = form.students.includes(student._id);
 
-                  {/* Student Selection */}
-                  <div className="mt-4">
-                      <SearchInput
-                        value={searchTermStudent}
-                        onChange={(e) => setSearchTermStudent(e.target.value)}
-                        placeholder="Buscar alunos..."
-                      />
-                      <div className="scrollable-container my-2">
-                          <table className="w-full border-collapse border border-gray-300">
-                              <thead className="bg-gray-200">
-                                  <tr>
-                                      <th className="border border-gray-300 px-2 py-1 text-left">Nome</th>
-                                      <th className="border border-gray-300 px-2 py-1 text-center">Atribuído</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  {students.filter((st) =>
-                                    (st.lastName.toLowerCase() + st.name.toLowerCase()).trim().includes(searchTermStudent.replace(",","").trim().toLowerCase())
-                                    ).map((student) => {
-                                      const isAssigned = form.students.includes(student._id);
-
-                                      return (
-                                      <tr key={student._id} className="border border-gray-300">
-                                          <td className="px-2 py-1">{student.lastName}, {student.name}</td>
-                                          <td className="px-2 py-1 text-center">
-                                              {/* Toggle Switch */}
-                                              <label className="relative inline-flex items-center cursor-pointer">
-                                                  <input
-                                                  type="checkbox"
-                                                  checked={isAssigned}
-                                                  onChange={() => handleStudentSelection(student._id)}
-                                                  className="sr-only peer"
-                                                  />
-                                                  <div className="w-11 h-6 bg-gray-300 peer-focus:ring-2 peer-focus:ring-blue-300 rounded-full peer 
-                                                              peer-checked:after:translate-x-full peer-checked:after:border-white 
-                                                              after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white 
-                                                              after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 
-                                                              after:transition-all peer-checked:bg-green-500"></div>
-                                              </label>
-                                          </td>
-                                      </tr>
-                                      );
-                                  })}
-                              </tbody>
-                          </table>
-                      </div>
-                  </div>
+                                    return (
+                                    <tr key={student._id} className="border border-gray-300">
+                                        <td className="px-2 py-1">{student.lastName}, {student.name}</td>
+                                        <td className="px-2 py-1 text-center">
+                                            {/* Toggle Switch */}
+                                            <label className="relative inline-flex items-center cursor-pointer">
+                                                <input
+                                                type="checkbox"
+                                                checked={isAssigned}
+                                                onChange={() => handleStudentSelection(student._id)}
+                                                className="sr-only peer"
+                                                />
+                                                <div className="w-11 h-6 bg-gray-300 peer-focus:ring-2 peer-focus:ring-blue-300 rounded-full peer 
+                                                            peer-checked:after:translate-x-full peer-checked:after:border-white 
+                                                            after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white 
+                                                            after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 
+                                                            after:transition-all peer-checked:bg-green-500"></div>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
                 <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
                   {editing ? "Atualizar" : "Guardar"}
