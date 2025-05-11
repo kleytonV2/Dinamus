@@ -4,6 +4,7 @@
 import { useSession } from "next-auth/react";
 import { DBCollections } from "@/app/constants";
 import Image from 'next/image';
+import AbsencePolarChart from "@/app/admin/components/AbsencePolarChart";
 
 import Link from "next/link";
 
@@ -28,7 +29,7 @@ export default function Admin() {
                   <Link
                     key={index}
                     href={item.href}
-                    className=" w-full lg:h-56 group bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center justify-center text-center"
+                    className="w-full lg:h-56 group bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center justify-center text-center"
                   >
                     <div className="mb-2 flex items-center justify-center">
                       <Image src={item.icon} alt={item.label} className="w-16 h-16 lg:w-32 lg:h-32" />
@@ -36,6 +37,10 @@ export default function Admin() {
                     <p className="text-sm font-medium text-neutral-600 group-hover:text-neutral-950">{item.label}</p>
                   </Link>
                 ))}
+
+                <div>
+                  <AbsencePolarChart/>;
+                </div>
               </div>
 
           </div>
