@@ -6,6 +6,8 @@ import {
   ArcElement,
   Tooltip,
   Legend,
+  ChartData,
+  ChartOptions,
 } from "chart.js";
 
 // Student and Attendance Interfaces
@@ -96,11 +98,24 @@ const AbsencePolarChart = () => {
     ],
   };
 
-  const options = {
+  // Corrected chart options for PolarArea chart
+  const options: ChartOptions<"polarArea"> = {
     responsive: true,
+    scales: {
+      r: {
+        beginAtZero: true,
+        ticks: {
+          display: false,
+        },
+        angleLines: {
+          display: true,
+          color: "rgba(0, 0, 0, 0.2)",
+        },
+      },
+    },
     plugins: {
       legend: {
-        position: "right" as const,
+        position: "right",
       },
       tooltip: {
         callbacks: {
