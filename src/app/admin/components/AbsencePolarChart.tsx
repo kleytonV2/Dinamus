@@ -6,8 +6,8 @@ import {
   ArcElement,
   Tooltip,
   Legend,
-  ChartData,
   ChartOptions,
+  ChartData,
 } from "chart.js";
 
 // Student and Attendance Interfaces
@@ -82,7 +82,7 @@ const AbsencePolarChart = () => {
     }));
   }, [attendances, currentMonth, currentYear]);
 
-  const data = {
+  const data: ChartData<"polarArea"> = {
     labels: chartData.map((cls) => cls.className),
     datasets: [
       {
@@ -119,7 +119,7 @@ const AbsencePolarChart = () => {
       },
       tooltip: {
         callbacks: {
-          label: function (context: any) {
+          label: function (context: { dataIndex: number }) {
             const index = context.dataIndex;
             const classInfo = chartData[index];
             const absentList = classInfo.absents;
