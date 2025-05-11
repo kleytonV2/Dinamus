@@ -10,7 +10,7 @@ export default function Login() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-xl font-medium">Redirecting to Google Sign-In...</h1>
+      <h1 className="text-xl font-medium">Redirecionando para login com Google...</h1>
     </div>
   );
 }

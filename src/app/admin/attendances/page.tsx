@@ -211,116 +211,117 @@ export default function AttendancePage() {
       <AdminNavbar />
       
       <div className="max-w-6xl mx-auto px-4 py-6 pt-24">
+        
+        <h1 className="text-3xl font-bold text-gray-800 tracking-tight mb-10">
+          Assistências
+        </h1>
+        
+        <div className="flex flex-row mb-8">
+          <DatePickerInput
+            id="startDate"
+            label="Data começo"
+            selectedDate={startDate ? new Date(startDate) : null}
+            onChange={(date) => setStartDate(date ? date : null)}
+          />
+          <DatePickerInput
+            id="endDate"
+            label="Data fim"
+            selectedDate={endDate ? new Date(endDate) : null}
+            onChange={(date) => setEndDate(date ? date : null)}
+          />
+        </div>
 
-        <div className={`transition-opacity duration-500`}>
+        <div className="flex flex-row justify-between mb-4">
+          <SearchInput
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Buscar treinos..."
+          />
+          <button onClick={() => openModal()} className="px-1 py-1 bg-green-500 text-white rounded shadow hover:bg-green-600 transition">
+              <Image className="" src={addIcon} alt="icon" />
+          </button>
+        </div>
 
-          <div className="flex flex-row mb-8">
-            <DatePickerInput
-              id="startDate"
-              label="Data começo"
-              selectedDate={startDate ? new Date(startDate) : null}
-              onChange={(date) => setStartDate(date ? date : null)}
-            />
-            <DatePickerInput
-              id="endDate"
-              label="Data fim"
-              selectedDate={endDate ? new Date(endDate) : null}
-              onChange={(date) => setEndDate(date ? date : null)}
-            />
-          </div>
+        {/* Mobile-Friendly Attendance List */}
+        <div className="space-y-4 sm:hidden">
+          {attendances.length > 0 ? (
+            attendances.filter((at) =>
+                at.class.title?.toLowerCase().includes(searchTerm.toLowerCase())
+                && (startDate == null || at.date instanceof Date ? at.date : new Date(at.date) >= startDate)
+                && (endDate == null || at.date instanceof Date ? at.date : new Date(at.date) <= endDate)
+              ).map((attendance) => (
+              <div key={attendance._id} className="p-4 border rounded bg-white shadow">
+                <p className="text-lg font-semibold">{attendance.class?.title}</p>
+                <p className="text-sm text-gray-600">{attendance.date
+                                                                ? `${attendance.date instanceof Date 
+                                                                    ? attendance.date.toLocaleDateString("pt-BR") 
+                                                                    : new Date(attendance.date).toLocaleDateString("pt-BR")}`
+                                                                : ""
+                                                            }</p>
+                <p className="text-sm text-gray-600">
+                  {attendance.absentStudents.length} Alunos ausentes
+                </p>
+                <div className="flex justify-end mt-2">
+                  <button onClick={() => openModal(attendance)} className="bg-blue-500 mr-4 rounded">
+                    <Image className="" src={editIcon} alt="Editar" />
+                  </button>
+                  <button disabled={attendance.absentStudents.length > 0} onClick={() => handleDelete(attendance._id!)} className={`rounded ${attendance.absentStudents.length > 0 ? "bg-gray-500" : "bg-red-500 cursor-pointer" }`}>
+                    <Image className="" src={deleteIcon} alt="Eliminar" />
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500 text-center">Ainda não existem registros de assistência.</p>
+          )}
+        </div>
 
-          <div className="flex flex-row justify-between mb-4">
-            <SearchInput
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Buscar treinos..."
-            />
-            <button onClick={() => openModal()} className="px-1 py-1 bg-green-500 text-white rounded shadow hover:bg-green-600 transition">
-                <Image className="" src={addIcon} alt="icon" />
-            </button>
-          </div>
-
-          {/* Mobile-Friendly Attendance List */}
-          <div className="space-y-4 sm:hidden">
-            {attendances.length > 0 ? (
-              attendances.filter((at) =>
+        {/* Desktop Table */}
+        <div className="hidden sm:block overflow-x-auto">
+          <table className="w-full bg-white border border-gray-200 rounded-lg shadow-md">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Classe</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Data</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Alunos Ausentes</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {attendances.length > 0 ? (
+                attendances.filter((at) =>
                   at.class.title?.toLowerCase().includes(searchTerm.toLowerCase())
                   && (startDate == null || at.date instanceof Date ? at.date : new Date(at.date) >= startDate)
                   && (endDate == null || at.date instanceof Date ? at.date : new Date(at.date) <= endDate)
-                ).map((attendance) => (
-                <div key={attendance._id} className="p-4 border rounded bg-white shadow">
-                  <p className="text-lg font-semibold">{attendance.class?.title}</p>
-                  <p className="text-sm text-gray-600">{attendance.date
-                                                                  ? `${attendance.date instanceof Date 
-                                                                      ? attendance.date.toLocaleDateString("pt-BR") 
-                                                                      : new Date(attendance.date).toLocaleDateString("pt-BR")}`
-                                                                  : ""
-                                                              }</p>
-                  <p className="text-sm text-gray-600">
-                    {attendance.absentStudents.length} Alunos ausentes
-                  </p>
-                  <div className="flex justify-end mt-2">
-                    <button onClick={() => openModal(attendance)} className="bg-blue-500 mr-4 rounded">
-                      <Image className="" src={editIcon} alt="Editar" />
-                    </button>
-                    <button disabled={attendance.absentStudents.length > 0} onClick={() => handleDelete(attendance._id!)} className={`${attendance.absentStudents.length > 0 ? "bg-gray-500" : "bg-red-500 rounded cursor-pointer" }`}>
-                      <Image className="" src={deleteIcon} alt="Eliminar" />
-                    </button>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p className="text-gray-500 text-center">Ainda não existem registros de assistência.</p>
-            )}
-          </div>
-
-          {/* Desktop Table */}
-          <div className="hidden sm:block overflow-x-auto">
-            <table className="w-full bg-white border border-gray-200 rounded-lg shadow-md">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Classe</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Data</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Alunos Ausentes</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {attendances.length > 0 ? (
-                  attendances.filter((at) =>
-                    at.class.title?.toLowerCase().includes(searchTerm.toLowerCase())
-                    && (startDate == null || at.date instanceof Date ? at.date : new Date(at.date) >= startDate)
-                    && (endDate == null || at.date instanceof Date ? at.date : new Date(at.date) <= endDate)
-                  ).map((attendance, index) => (
-                    <tr key={attendance._id} className={`${index % 2 === 0 ? "bg-gray-50" : "bg-white"}`}>
-                      <td className="px-4 py-3 text-sm text-gray-700">{attendance.class?.title}</td>
-                      <td className="px-4 py-3 text-sm text-gray-700">{attendance.date
-                                                                          ? `${attendance.date instanceof Date 
-                                                                              ? attendance.date.toLocaleDateString("pt-BR") 
-                                                                              : new Date(attendance.date).toLocaleDateString("pt-BR")}`
-                                                                          : ""
-                                                                      }</td>
-                      <td className="px-4 py-3 text-sm text-gray-700">{attendance.absentStudents.length} Alunos ausentes</td>
-                      <td className="px-4 py-3 text-sm text-gray-700">
-                        <button onClick={() => openModal(attendance)} className="bg-blue-500 mr-4 rounded">
-                          <Image className="" src={editIcon} alt="Editar" />
-                        </button>
-                        <button disabled={attendance.absentStudents.length > 0} onClick={() => handleDelete(attendance._id!)} className={`${attendance.absentStudents.length > 0 ? "bg-gray-500" : "bg-red-500 rounded cursor-pointer" }`}>
-                          <Image className="" src={deleteIcon} alt="Eliminar" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={4} className="px-4 py-3 text-center text-gray-500">
-                      Ainda não existem registros de assistência.
+                ).map((attendance, index) => (
+                  <tr key={attendance._id} className={`${index % 2 === 0 ? "bg-gray-50" : "bg-white"}`}>
+                    <td className="px-4 py-3 text-sm text-gray-700">{attendance.class?.title}</td>
+                    <td className="px-4 py-3 text-sm text-gray-700">{attendance.date
+                                                                        ? `${attendance.date instanceof Date 
+                                                                            ? attendance.date.toLocaleDateString("pt-BR") 
+                                                                            : new Date(attendance.date).toLocaleDateString("pt-BR")}`
+                                                                        : ""
+                                                                    }</td>
+                    <td className="px-4 py-3 text-sm text-gray-700">{attendance.absentStudents.length} Alunos ausentes</td>
+                    <td className="px-4 py-3 text-sm text-gray-700">
+                      <button onClick={() => openModal(attendance)} className="bg-blue-500 mr-4 rounded">
+                        <Image className="" src={editIcon} alt="Editar" />
+                      </button>
+                      <button disabled={attendance.absentStudents.length > 0} onClick={() => handleDelete(attendance._id!)} className={`rounded ${attendance.absentStudents.length > 0 ? "bg-gray-500" : "bg-red-500 cursor-pointer" }`}>
+                        <Image className="" src={deleteIcon} alt="Eliminar" />
+                      </button>
                     </td>
                   </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4} className="px-4 py-3 text-center text-gray-500">
+                    Ainda não existem registros de assistência.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
 
         {/* Modal for Adding/Editing Attendance */}

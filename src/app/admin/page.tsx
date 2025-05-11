@@ -23,17 +23,17 @@ export default function Admin() {
         {session?.user ? (
           <div className="max-w-6xl mx-auto px-4 py-6 pt-24">
               
-              <div className="grid grid-cols-2 gap-4 justify-center items-center lg:flex lg:flex-row">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
                 {DBCollections.map((item, index) => (
                   <Link
                     key={index}
                     href={item.href}
-                    className="w-full h-full py-4 lg:w-40 lg:h-40 lg:py-auto flex justify-center items-center border rounded hover:shadow text-center"
+                    className=" w-full lg:h-56 group bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center justify-center text-center"
                   >
-                    <div className="w-1/2">
-                      <Image className="w-full h-auto" src={item.icon} alt="icon" />
-                      <p className="text-gray-600">{item.label}</p>
+                    <div className="mb-2 flex items-center justify-center">
+                      <Image src={item.icon} alt={item.label} className="w-16 h-16 lg:w-32 lg:h-32" />
                     </div>
+                    <p className="text-sm font-medium text-neutral-600 group-hover:text-neutral-950">{item.label}</p>
                   </Link>
                 ))}
               </div>
@@ -41,7 +41,9 @@ export default function Admin() {
           </div>
           
         ) : (
-          <div>Você não tem autorização</div>
+          <div className="flex justify-center items-center min-h-screen">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500" />
+          </div>
         )}
       </div>
     </>
