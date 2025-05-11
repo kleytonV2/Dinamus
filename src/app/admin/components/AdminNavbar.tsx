@@ -4,7 +4,7 @@ import { adminNavItems } from "@/app/constants";
 
 export default function AdminNavbar() {
   return (
-    <nav className="fixed w-full z-0">
+    <nav className="fixed w-full z-50">
       <div id="linksList" className="flex justify-center items-center backdrop-blur">
         <ul className="flex lg:space-x-12 px-2">
           {adminNavItems.map((item, index) => (

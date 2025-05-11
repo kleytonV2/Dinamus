@@ -145,93 +145,95 @@ export default function ClassesPage() {
 
       <div className="max-w-6xl mx-auto px-4 py-6 pt-24">
 
-        <div className={`transition-opacity duration-500`}>
-          <div className="flex flex-row justify-between mb-4">
-            <SearchInput
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Buscar treinos..."
-            />
-            <button onClick={() => openModal()} className="px-1 py-1 bg-green-500 text-white rounded shadow hover:bg-green-600 transition">
-                <Image className="" src={addIcon} alt="Adicionar" />
-            </button>
-          </div>
+        <h1 className="text-3xl font-bold text-gray-800 tracking-tight mb-10">
+          Treinos
+        </h1>
 
-          {/* Mobile-Friendly Student List */}
-          <div className="space-y-4 sm:hidden">
-              <div className="space-y-4 sm:hidden">
-                  {classes.length > 0 ? (
-                      classes.filter((cls) =>
-                        cls.title.toLowerCase().includes(searchTerm.toLowerCase())
-                      ).map((cls) => (
-                          <div key={cls._id} className="p-4 border rounded bg-white shadow">
-                              <p className="text-lg font-semibold">{cls.title}</p>
-                              <p className="text-sm text-gray-600">{cls.dayOfWeek}</p>
-                              <p className="text-sm text-gray-600">{cls.startTime} - {cls.endTime}</p>
-                              <p className="text-sm text-gray-600">{cls.students.length} Alunos</p>
-                              <div className="flex justify-end mt-2">
-                                <button onClick={() => openModal(cls)} className="bg-blue-500 mr-4 rounded">
-                                  <Image className="" src={editIcon} alt="Editar" />
-                                </button>
-                                <button disabled={cls.students.length > 0} onClick={() => handleDelete(cls._id!)} className={`${cls.students.length > 0 ? "bg-gray-500" : "bg-red-500 rounded cursor-pointer" }`}>
-                                  <Image className="" src={deleteIcon} alt="Eliminar" />
-                                </button>
-                              </div>
-                          </div>
-                      ))
-                      ) : (
-                          <p className="text-gray-500 text-center">Ainda não existem treinos.</p>
-                      )}
-              </div>
-          </div>
+        <div className="flex flex-row justify-between mb-4">
+          <SearchInput
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Buscar treinos..."
+          />
+          <button onClick={() => openModal()} className="px-1 py-1 bg-green-500 text-white rounded shadow hover:bg-green-600 transition">
+              <Image className="" src={addIcon} alt="Adicionar" />
+          </button>
+        </div>
 
-          {/* Desktop Table */}
-          <div className="hidden sm:block overflow-x-auto">
-            <table className="w-full bg-white border border-gray-200 rounded-lg shadow-md">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Título</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Día</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Horário</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Alunos</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Ações</th>
-                </tr>
-              </thead>
-              <tbody>
+        {/* Mobile-Friendly Student List */}
+        <div className="space-y-4 sm:hidden">
+            <div className="space-y-4 sm:hidden">
                 {classes.length > 0 ? (
-                  classes.filter((cls) =>
-                    cls.title.toLowerCase().includes(searchTerm.toLowerCase())
-                  ).map((cls, index) => (
-                    <tr key={cls._id} className={`${index % 2 === 0 ? "bg-gray-50" : "bg-white"}`}>
-                      <td className="px-4 py-3 text-sm text-gray-700">{cls.title}</td>
-                      <td className="px-4 py-3 text-sm text-gray-700">{cls.dayOfWeek}</td>
-                      <td className="px-4 py-3 text-sm text-gray-700">{cls.startTime} - {cls.endTime}</td>
-                      <td className="px-4 py-3 text-sm text-gray-700">{cls.students.length} Alunos</td>
-                      <td className="px-4 py-3 text-sm text-gray-700">
-                        <button onClick={() => openModal(cls)} className="bg-blue-500 mr-4 rounded">
-                          <Image className="" src={editIcon} alt="Editar" />
-                        </button>
-                        <button disabled={cls.students.length > 0} onClick={() => handleDelete(cls._id!)} className={`${cls.students.length > 0 ? "bg-gray-500" : "bg-red-500 rounded cursor-pointer" }`}>
-                          <Image className="" src={deleteIcon} alt="Eliminar" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={5} className="px-4 py-3 text-center text-gray-500">
-                      Ainda não existem treinos.
+                    classes.filter((cls) =>
+                      cls.title.toLowerCase().includes(searchTerm.toLowerCase())
+                    ).map((cls) => (
+                        <div key={cls._id} className="p-4 border rounded bg-white shadow">
+                            <p className="text-lg font-semibold">{cls.title}</p>
+                            <p className="text-sm text-gray-600">{cls.dayOfWeek}</p>
+                            <p className="text-sm text-gray-600">{cls.startTime} - {cls.endTime}</p>
+                            <p className="text-sm text-gray-600">{cls.students.length} Alunos</p>
+                            <div className="flex justify-end mt-2">
+                              <button onClick={() => openModal(cls)} className="bg-blue-500 mr-4 rounded">
+                                <Image className="" src={editIcon} alt="Editar" />
+                              </button>
+                              <button disabled={cls.students.length > 0} onClick={() => handleDelete(cls._id!)} className={`rounded ${cls.students.length > 0 ? "bg-gray-500" : "bg-red-500 cursor-pointer" }`}>
+                                <Image className="" src={deleteIcon} alt="Eliminar" />
+                              </button>
+                            </div>
+                        </div>
+                    ))
+                    ) : (
+                        <p className="text-gray-500 text-center">Ainda não existem treinos.</p>
+                    )}
+            </div>
+        </div>
+
+        {/* Desktop Table */}
+        <div className="hidden sm:block overflow-x-auto">
+          <table className="w-full bg-white border border-gray-200 rounded-lg shadow-md">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Título</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Día</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Horário</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Alunos</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {classes.length > 0 ? (
+                classes.filter((cls) =>
+                  cls.title.toLowerCase().includes(searchTerm.toLowerCase())
+                ).map((cls, index) => (
+                  <tr key={cls._id} className={`${index % 2 === 0 ? "bg-gray-50" : "bg-white"}`}>
+                    <td className="px-4 py-3 text-sm text-gray-700">{cls.title}</td>
+                    <td className="px-4 py-3 text-sm text-gray-700">{cls.dayOfWeek}</td>
+                    <td className="px-4 py-3 text-sm text-gray-700">{cls.startTime} - {cls.endTime}</td>
+                    <td className="px-4 py-3 text-sm text-gray-700">{cls.students.length} Alunos</td>
+                    <td className="px-4 py-3 text-sm text-gray-700">
+                      <button onClick={() => openModal(cls)} className="bg-blue-500 mr-4 rounded">
+                        <Image className="" src={editIcon} alt="Editar" />
+                      </button>
+                      <button disabled={cls.students.length > 0} onClick={() => handleDelete(cls._id!)} className={`rounded ${cls.students.length > 0 ? "bg-gray-500" : "bg-red-500 cursor-pointer" }`}>
+                        <Image className="" src={deleteIcon} alt="Eliminar" />
+                      </button>
                     </td>
                   </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={5} className="px-4 py-3 text-center text-gray-500">
+                    Ainda não existem treinos.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
 
         {/* Modal for Adding/Editing a Class */}
         {showModal && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4 z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
               <button onClick={closeModal} className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl">
                 &times;

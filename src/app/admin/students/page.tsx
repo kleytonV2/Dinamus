@@ -118,7 +118,10 @@ export default function StudentsPage() {
     <>
       <AdminNavbar/>
       <div className="max-w-6xl mx-auto px-4 py-6 pt-24">
-        
+        <h1 className="text-3xl font-bold text-gray-800 tracking-tight mb-10">
+          Alunos
+        </h1>
+
         <div className={`transition-opacity duration-500`}>
 
           <div className="flex flex-row justify-between mb-4">
