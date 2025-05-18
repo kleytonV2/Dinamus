@@ -53,7 +53,7 @@ const TotalAbsencesCard = () => {
       }
       return count;
     }, 0);
-  }, [attendances]);
+  }, [attendances, now]);
 
   return (
     <>
