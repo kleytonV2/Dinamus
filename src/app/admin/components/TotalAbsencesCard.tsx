@@ -23,8 +23,11 @@ const TotalAbsencesCard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
-  const now = new Date();
-  const monthName = now.toLocaleDateString("pt-BR", { month: "long" });
+  const now = useMemo(() => new Date(), []);
+
+  const monthName = useMemo(() => {
+    return now.toLocaleDateString("pt-BR", { month: "long" });
+  }, [now]);
 
   useEffect(() => {
     fetchAttendances();
@@ -43,6 +46,7 @@ const TotalAbsencesCard = () => {
   }
 
   const totalAbsences = useMemo(() => {
+    const now = new Date();
     const currentMonth = now.getMonth();
     const currentYear = now.getFullYear();
 
