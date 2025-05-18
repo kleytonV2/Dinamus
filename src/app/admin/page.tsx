@@ -3,13 +3,13 @@
 
 import { useSession } from "next-auth/react";
 import { DBCollections } from "@/app/constants";
+import { useState } from "react";
 import Image from 'next/image';
 import AbsencePolarChart from "@/app/admin/components/AbsencePolarChart";
-
+import TotalAbsencesCard from "@/app/admin/components/TotalAbsencesCard";
 import Link from "next/link";
 
 export default function Admin() {
-
   const {data: session} = useSession();
 
   return (
@@ -24,7 +24,7 @@ export default function Admin() {
         {session?.user ? (
           <div className="max-w-6xl mx-auto px-4 py-6 pt-24">
               
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
                 {DBCollections.map((item, index) => (
                   <Link
                     key={index}
@@ -38,9 +38,8 @@ export default function Admin() {
                   </Link>
                 ))}
 
-                <div>
-                  <AbsencePolarChart/>;
-                </div>
+                <TotalAbsencesCard />
+
               </div>
 
           </div>

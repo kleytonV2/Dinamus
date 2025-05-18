@@ -10,7 +10,6 @@ import {
   ChartData,
 } from "chart.js";
 
-// Student and Attendance Interfaces
 interface IStudent {
   _id: string;
   name: string;
@@ -47,7 +46,6 @@ const AbsencePolarChart = () => {
     }
   }
 
-  // Get current month and year
   const currentMonth = new Date().getMonth(); // Month is zero-based (0 = January, 1 = February, ...)
   const currentYear = new Date().getFullYear();
 
@@ -75,10 +73,9 @@ const AbsencePolarChart = () => {
       }
     });
 
-    // Convert map to array format
     return Array.from(map.values()).map((entry) => ({
       className: entry.title,
-      absents: Array.from(entry.students), // Convert Set to array of strings
+      absents: Array.from(entry.students), 
     }));
   }, [attendances, currentMonth, currentYear]);
 
@@ -86,19 +83,21 @@ const AbsencePolarChart = () => {
     labels: chartData.map((cls) => cls.className),
     datasets: [
       {
-        label: "Faltas por turma",
+        label: "Ausências por turma",
         data: chartData.map((cls) => cls.absents.length),
         backgroundColor: [
-          "rgba(255, 99, 132, 0.6)",
-          "rgba(54, 162, 235, 0.6)",
-          "rgba(255, 206, 86, 0.6)",
+          "rgba(255, 99, 132, 0.7)",
+          "rgba(54, 162, 235, 0.7)",
+          "rgba(255, 206, 86, 0.7)",
+          "rgba(13, 182, 27, 0.7)",
+          "rgba(205, 16, 164, 0.7)",
+          "rgba(207, 143, 6, 0.7)"
         ],
         borderWidth: 1,
       },
     ],
   };
 
-  // Corrected chart options for PolarArea chart
   const options: ChartOptions<"polarArea"> = {
     responsive: true,
     scales: {
@@ -115,7 +114,7 @@ const AbsencePolarChart = () => {
     },
     plugins: {
       legend: {
-        position: "right",
+        position: "top",
       },
       tooltip: {
         callbacks: {
@@ -128,9 +127,8 @@ const AbsencePolarChart = () => {
               return [`${classInfo.className}: Nenhum aluno ausente`];
             }
 
-            // Return class name and the absent students' names
             return [
-              `${classInfo.className}: ${absentList.length} ausentes`,
+              ` ${absentList.length} ausentes`,
               ...absentList.map((student) => `• ${student}`),
             ];
           },
