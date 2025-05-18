@@ -256,7 +256,7 @@ export default function ClassesPage() {
                   value={form.dayOfWeek}
                   onChange={(e) => setForm({ ...form, dayOfWeek: e.target.value })}
                   options={Object.values(DaysOfWeek)}
-                  placeholder="Selecione uma faixa"
+                  placeholder="Selecione um treino"
                 />
                 <TextInput
                   id="startDate"
