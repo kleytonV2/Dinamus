@@ -3,9 +3,7 @@
 
 import { useSession } from "next-auth/react";
 import { DBCollections } from "@/app/constants";
-import { useState } from "react";
 import Image from 'next/image';
-import AbsencePolarChart from "@/app/admin/components/AbsencePolarChart";
 import TotalAbsencesCard from "@/app/admin/components/TotalAbsencesCard";
 import Link from "next/link";
 
