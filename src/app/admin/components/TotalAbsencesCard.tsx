@@ -46,7 +46,6 @@ const TotalAbsencesCard = () => {
   }
 
   const totalAbsences = useMemo(() => {
-    const now = new Date();
     const currentMonth = now.getMonth();
     const currentYear = now.getFullYear();
 
