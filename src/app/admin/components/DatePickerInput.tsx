@@ -2,6 +2,8 @@ import React from "react";
 import DatePicker from "react-datepicker";
 import { ptBR } from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
+import Image from 'next/image';
+import calendarIcon from "@/app/assets/icons/calendarIcon.svg";
 
 interface DatePickerInputProps {
   id: string;
@@ -21,7 +23,7 @@ const DatePickerInput: React.FC<DatePickerInputProps> = ({
   maxDate = new Date(),
 }) => {
   return (
-    <div className="relative pr-8">
+    <div className="relative w-fit pr-8">
       <DatePicker
         id={id}
         selected={selectedDate}
@@ -41,6 +43,8 @@ const DatePickerInput: React.FC<DatePickerInputProps> = ({
       >
         {label}
       </label>
+
+      <Image className="w-5 h-5 text-gray-400 absolute right-10 top-1/2 transform -translate-y-1/2 pointer-events-none" src={calendarIcon} alt="calendar" />
     </div>
   );
 };

@@ -216,19 +216,24 @@ export default function AttendancePage() {
           Assistências
         </h1>
         
-        <div className="flex flex-row mb-8">
-          <DatePickerInput
-            id="startDate"
-            label="Data começo"
-            selectedDate={startDate ? new Date(startDate) : null}
-            onChange={(date) => setStartDate(date ? date : null)}
-          />
-          <DatePickerInput
-            id="endDate"
-            label="Data fim"
-            selectedDate={endDate ? new Date(endDate) : null}
-            onChange={(date) => setEndDate(date ? date : null)}
-          />
+        <div className="flex flex-col sm:flex-row mb-8">
+          <div className="mb-2">
+            <DatePickerInput
+              id="startDate"
+              label="Data começo"
+              selectedDate={startDate ? new Date(startDate) : null}
+              onChange={(date) => setStartDate(date ? date : null)}
+            />
+          </div>
+          <div>
+            <DatePickerInput
+              id="endDate"
+              label="Data fim"
+              selectedDate={endDate ? new Date(endDate) : null}
+              onChange={(date) => setEndDate(date ? date : null)}
+            />
+          </div>
+          
         </div>
 
         <div className="flex flex-row justify-between mb-4">
