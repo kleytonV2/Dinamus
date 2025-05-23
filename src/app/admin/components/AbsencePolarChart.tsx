@@ -114,7 +114,7 @@ const AbsencePolarChart = () => {
     },
     plugins: {
       legend: {
-        position: "top",
+        position: "right",
       },
       tooltip: {
         callbacks: {
