@@ -58,14 +58,15 @@ export default function AttendancePage() {
     fetchStudents();
     fetchClasses();
     fetchAttendances();
-    setLoading(false); 
   }, []);
 
   async function fetchStudents() {
     try{
       const res = await fetch("/api/students");
       const data = await res.json();
-      setStudents(data);
+      if(data)
+        setStudents(data);
+
     } catch (error) {
       console.error("Failed to fetch students:", error);
     }
@@ -75,7 +76,9 @@ export default function AttendancePage() {
     try{
       const res = await fetch("/api/classes");
       const data = await res.json();
-      setClasses(data);
+      if(data)
+        setClasses(data);
+
     } catch (error) {
       console.error("Failed to fetch classes:", error);
     }
@@ -85,9 +88,13 @@ export default function AttendancePage() {
     try{
       const res = await fetch("/api/attendances");
       const data = await res.json();
-      setAttendances(data);
+      if(data) 
+        setAttendances(data);
+
     } catch (error) {
       console.error("Failed to fetch attendances:", error);
+    } finally {
+      setLoading(false); 
     }
   }
 
@@ -195,7 +202,7 @@ export default function AttendancePage() {
     setForm({ ...form, absentStudents: updatedAbsentStudents });
   }
 
-  if (loading || students.length === 0 || classes.length === 0 || attendances.length === 0) {
+  if (loading) {
     return (
       <>
         <AdminNavbar />
