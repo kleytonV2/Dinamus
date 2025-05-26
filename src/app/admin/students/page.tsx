@@ -32,18 +32,21 @@ export default function StudentsPage() {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    fetchStudents();
-    setLoading(false); 
+    fetchStudents(); 
   }, []);
 
   async function fetchStudents() {
     try{
       const res = await fetch("/api/students");
       const data = await res.json();
-      setStudents(data);
+      if(data)
+        setStudents(data);
+      
     } catch (error) {
       console.error("Failed to fetch students:", error);
-    } 
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -103,7 +106,7 @@ export default function StudentsPage() {
     return age;
   }
 
-  if (loading || students.length === 0) {
+  if (loading) {
     return (
       <>
         <AdminNavbar />

@@ -45,14 +45,15 @@ export default function ClassesPage() {
   useEffect(() => {
     fetchStudents();
     fetchClasses();
-    setLoading(false);
   }, []);
 
   async function fetchStudents() {
     try{
       const res = await fetch("/api/students");
       const data = await res.json();
-      setStudents(data);
+      if(data)
+        setStudents(data);
+
     } catch (error) {
       console.error("Failed to fetch students:", error);
     }
@@ -62,9 +63,13 @@ export default function ClassesPage() {
     try{
       const res = await fetch("/api/classes");
       const data = await res.json();
-      setClasses(data);
+      if(data)
+        setClasses(data);
+
     } catch (error) {
       console.error("Failed to fetch classes:", error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -128,7 +133,7 @@ export default function ClassesPage() {
     setForm({ ...form, students: updatedStudents });
   }
 
-  if (loading || students.length === 0 || classes.length === 0) {
+  if (loading) {
     return (
       <>
         <AdminNavbar />

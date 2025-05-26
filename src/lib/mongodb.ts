@@ -1,9 +1,14 @@
 import mongoose from "mongoose";
  
- const MONGODB_URI = process.env.MONGODB_URI as string;
+const MONGODB_URI = process.env.MONGODB_URI as string;
+const MONGODB_DBNAME = process.env.MONGODB_DBNAME as string;
  
  if (!MONGODB_URI) {
    throw new Error("Please define the MONGODB_URI environment variable inside .env.local");
+ }
+
+ if (!MONGODB_DBNAME) {
+    throw new Error("Please define the MONGODB_DBNAME environment variable inside .env.local");
  }
  
  let cachedConnection: typeof mongoose | null = null;
@@ -17,7 +22,7 @@ import mongoose from "mongoose";
      try {
          console.log("Connecting to MongoDB...");
          cachedConnection = await mongoose.connect(MONGODB_URI, {
-             dbName: "Dinamus", 
+             dbName: MONGODB_DBNAME, 
          });
  
          console.log("MongoDB Connected ✅");
