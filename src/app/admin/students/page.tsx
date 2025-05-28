@@ -243,7 +243,7 @@ export default function StudentsPage() {
                     <TextInput
                       id="lastname"
                       type="text"
-                      placeholder="Apelhido"
+                      placeholder="Sobrenome"
                       value={form.lastName}
                       onChange={(e) => setForm({ ...form, lastName: e.target.value })}
                       required
