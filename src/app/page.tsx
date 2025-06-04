@@ -2,6 +2,7 @@ import Navbar from '@/app/components/Navbar';
 import HeroSection from '@/app/components/HeroSection';
 import PageContent from '@/app/components/PageContent';
 import FooterSection from '@/app/components/FooterSection';
+import MapSection from '@/app/components/MapSection';
 import bannerOverlay from "@/app/assets/banner_overlay.png";
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
         <HeroSection />
       </section>
       <PageContent />
+      <MapSection />
       <FooterSection />
     </>
   );

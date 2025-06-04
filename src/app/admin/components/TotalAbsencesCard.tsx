@@ -59,7 +59,7 @@ const TotalAbsencesCard = () => {
     <>
       
       <div
-        onClick={() => setShowModal(true)}
+        onClick={() => setShowModal(totalAbsences > 0)}
         className="cursor-pointer w-full lg:h-56 group bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-4 flex flex-col items-center justify-center text-center"
       >
         <div className="mb-2 flex items-center justify-center">
@@ -67,7 +67,7 @@ const TotalAbsencesCard = () => {
             end={totalAbsences}
             duration={1.5}
             separator="."
-            className="flex items-center justify-center w-16 h-16 lg:w-32 lg:h-32 text-6xl lg:text-8xl font-bold text-red-500"
+            className={`flex items-center justify-center w-16 h-16 lg:w-32 lg:h-32 text-6xl lg:text-8xl font-bold transition-all duration-300 ${totalAbsences > 0 ? "text-red-500" : "text-green-500" }`}
           />
         </div>
         <p className="text-sm font-medium text-neutral-600 group-hover:text-neutral-950">
