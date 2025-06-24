@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import logo from "@/app/assets/logo.png";
+import logo from "@/app/assets/logo.webp";
 
 export default function HeroSection () {
   return (
