@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import imgAboutUs from "@/app/assets/aboutUs.png";
+import imgAboutUs from "@/app/assets/aboutUs.webp";
 
 export default function AboutSection () {
     return (

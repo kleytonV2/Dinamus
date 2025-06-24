@@ -7,7 +7,8 @@ export default function MapSection () {
             height="330"
             allowFullScreen
             loading="lazy" 
-            referrerPolicy="no-referrer-when-downgrade"/>
+            referrerPolicy="no-referrer"
+            rel="preconnect"/>
     </div>
   )
 }

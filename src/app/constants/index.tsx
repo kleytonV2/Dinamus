@@ -28,8 +28,8 @@ export const DBCollections = [
     { label: "Assistências", href: "/admin/attendances", icon: attendanceIcon  }
 ];
 
-import img_1 from "@/app/assets/img_1.jpg";
-import img_2 from "@/app/assets/img_2.jpg";
+import img_1 from "@/app/assets/img_1.webp";
+import img_2 from "@/app/assets/img_2.webp";
 export const classes = [
     { 
         name: "Treino 1", 

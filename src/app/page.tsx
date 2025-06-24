@@ -3,7 +3,7 @@ import HeroSection from '@/app/components/HeroSection';
 import PageContent from '@/app/components/PageContent';
 import FooterSection from '@/app/components/FooterSection';
 import MapSection from '@/app/components/MapSection';
-import bannerOverlay from "@/app/assets/banner_overlay.png";
+import bannerOverlay from "@/app/assets/banner_overlay.webp";
 
 export default function Home() {
   return (
